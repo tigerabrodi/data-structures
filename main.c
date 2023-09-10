@@ -10,16 +10,23 @@ void print_list(Node *head);
 
 int main()
 {
-	Node a, b, c;
-	a.value = 1;
-	b.value = 2;
-	c.value = 3;
-	a.next = &b;
-	b.next = &c;
-	c.next = NULL;
-	print_list(&a);
+	Node *list1_head = NULL;
 
 	return 0;
+}
+
+Node *insert_at_head(Node *head, int new_value)
+{
+	Node *new_node = calloc(1, sizeof(Node));
+	new_node->value = new_value;
+
+	if (head == NULL)
+		return new_node;
+	else
+	{
+		new_node->next = head;
+		return new_node;
+	}
 }
 
 void print_list(Node *head)
