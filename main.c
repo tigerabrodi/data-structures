@@ -8,6 +8,7 @@ typedef struct node
 } Node;
 
 Node *insert_at_head(Node *head, int new_value);
+Node *insert_at_tail(Node *head, int new_value);
 void print_list(Node *head);
 
 int main()
