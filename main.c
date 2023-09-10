@@ -9,6 +9,7 @@ typedef struct node
 
 Node *insert_at_head(Node *head, int new_value);
 Node *insert_at_tail(Node *head, int new_value);
+Node *delete_at_head(Node *head);
 void print_list(Node *head);
 
 int main()
@@ -20,6 +21,18 @@ int main()
 	print_list(list1_head);
 
 	return 0;
+}
+
+Node *delete_at_head(Node *head)
+{
+	if (head == NULL)
+		return NULL;
+	else
+	{
+		Node *new_head = head->next;
+		free(head);
+		return new_head;
+	}
 }
 
 Node *insert_at_tail(Node *head, int new_value)
