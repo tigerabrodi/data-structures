@@ -11,6 +11,7 @@ Node *insert_at_head(Node *head, int new_value);
 Node *insert_at_tail(Node *head, int new_value);
 Node *delete_at_head(Node *head);
 Node *delete_at_tail(Node *head);
+int get_length(Node *head);
 void print_list(Node *head);
 
 int main()
@@ -22,6 +23,18 @@ int main()
 	print_list(list1_head);
 
 	return 0;
+}
+
+int get_length(Node *head)
+{
+	int length = 0;
+	Node *current = head;
+	while (current != NULL)
+	{
+		length++;
+		current = current->next;
+	}
+	return length;
 }
 
 Node *delete_at_tail(Node *head)
