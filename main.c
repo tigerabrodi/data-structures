@@ -13,6 +13,8 @@ Node *insert_at_tail(Node *head, int new_value);
 Node *delete_at_head(Node *head);
 Node *delete_at_tail(Node *head);
 Node *delete_first_match(Node *head, int delete_value, bool *was_deleted);
+Node *efficient_delete_matches(Node *head, int delete_value, int *num_deleted);
+Node *append_lists(Node *head1, Node *head2);
 bool is_member(Node *head, int value);
 int count_matches(Node *head, int value);
 int get_length(Node *head);
@@ -28,6 +30,45 @@ int main()
 	print_list(list1_head);
 
 	return 0;
+}
+
+Node *efficient_delete_matches(Node *head, int delete_value, int *num_deleted)
+{
+	*num_deleted = 0;
+
+	if (head == NULL)
+		return NULL;
+
+	Node *current, *temp, *new_head;
+
+	current = head;
+
+	while (current->value == delete_value)
+	{
+		temp = current;
+		current = current->next;
+		free(temp);
+		*num_deleted += 1;
+
+		if (current == NULL)
+			return NULL;
+	}
+
+	new_head = current;
+
+	while (current->next != NULL)
+	{
+		if (current->next->value == delete_value)
+		{
+			temp = current->next;
+			current->next = current->next->next;
+			free(temp);
+			*num_deleted += 1;
+		}
+		else
+			// Only advance if there was no deletion
+			current = current->next;
+	}
 }
 
 Node *delete_all_matches(Node *head, int delete_value, int *num_deleted)
