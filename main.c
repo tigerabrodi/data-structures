@@ -21,6 +21,7 @@ int count_matches(Node *head, int value);
 int get_length(Node *head);
 void print_list(Node *head);
 void replaces_matches(Node *head, int old_value, int new_value);
+void sort_list(Node *head);
 
 int main()
 {
@@ -31,6 +32,41 @@ int main()
 	print_list(list1_head);
 
 	return 0;
+}
+
+void sort_list(Node *head)
+{
+	if (head == NULL)
+		return;
+
+	if (head->next == NULL)
+		return;
+
+	bool swapped = false;
+
+	do
+	{
+		swapped = false;
+		Node *current = head;
+		Node *prev = NULL;
+
+		while (current->next != NULL)
+		{
+			prev = current;
+			current = current->next;
+			if (current != NULL)
+			{
+				if (prev->value > current->value)
+				{
+					int temp = prev->value;
+					prev->value = current->value;
+					current->value = temp;
+					swapped = true;
+				}
+			}
+		}
+
+	} while (swapped);
 }
 
 // Function to reverse a singly linked list
