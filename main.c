@@ -22,6 +22,7 @@ int get_length(Node *head);
 void print_list(Node *head);
 void replaces_matches(Node *head, int old_value, int new_value);
 void sort_list(Node *head);
+void delete_duplicates(Node *head);
 
 int main()
 {
@@ -32,6 +33,38 @@ int main()
 	print_list(list1_head);
 
 	return 0;
+}
+
+void delete_duplicates(Node *head)
+{
+	if (head == NULL)
+		return;
+
+	if (head->next == NULL)
+		return;
+
+	Node *current1, *current2, *duplicate;
+
+	current1 = head;
+
+	while (current1 != NULL && current1->next != NULL)
+	{
+		current2 = current1;
+
+		while (current2->next != NULL)
+		{
+			if (current1->value == current2->next->value)
+			{
+				duplicate = current2->next;
+				current2->next = current2->next->next;
+				free(duplicate);
+			}
+			else
+				current2 = current2->next;
+		}
+
+		current1 = current1->next;
+	}
 }
 
 void sort_list(Node *head)
