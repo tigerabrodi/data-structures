@@ -33,27 +33,45 @@ int main()
 	return 0;
 }
 
+// Function to reverse a singly linked list
 Node *reverse_list(Node *head)
 {
+	// If the list is empty, we just return NULL.
 	if (head == NULL)
 		return NULL;
 
+	// If there's only one node in the list, it remains the same when reversed.
 	if (head->next == NULL)
 		return head;
 
+	// Initialize 'current' to point to the first node of the list.
 	Node *current = head;
+
+	// Initialize 'next_node' to point to the second node of the list (or NULL if it doesn't exist).
 	Node *next_node = head->next;
 
+	// Set the next of the head node to NULL. This will be the tail once the list is reversed.
 	current->next = NULL;
 
+	// Iterate through the list to reverse the direction of each node.
 	while (next_node != NULL)
 	{
+		// Capture the node following 'next_node' before we change 'next_node's next pointer.
 		Node *temp = next_node->next;
+
+		// Redirect the 'next_node's next pointer back to the 'current' node.
+		// This is where the actual reversal of the pointer direction happens for this node.
 		next_node->next = current;
+
+		// Move 'current' to where 'next_node' is.
 		current = next_node;
+
+		// Move to the next node in the original sequence.
 		next_node = temp;
 	}
 
+	// At this point, the 'current' pointer points to the new head of the reversed list.
+	// Return this new head.
 	return current;
 }
 
