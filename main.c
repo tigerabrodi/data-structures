@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct node
 {
@@ -11,8 +12,11 @@ Node *insert_at_head(Node *head, int new_value);
 Node *insert_at_tail(Node *head, int new_value);
 Node *delete_at_head(Node *head);
 Node *delete_at_tail(Node *head);
+bool is_member(Node *head, int value);
+int count_matches(Node *head, int value);
 int get_length(Node *head);
 void print_list(Node *head);
+void replaces_matches(Node *head, int old_value, int new_value);
 
 int main()
 {
@@ -23,6 +27,36 @@ int main()
 	print_list(list1_head);
 
 	return 0;
+}
+
+void replaces_matches(Node *node, int old_value, int new_value)
+{
+	if (node != NULL)
+	{
+		if (node->value == old_value)
+			node->value = new_value;
+		replaces_matches(node->next, old_value, new_value);
+	}
+}
+
+int count_matches(Node *node, int value)
+{
+	if (node == NULL)
+		return 0;
+	else if (node->value == value)
+		return 1 + count_matches(node->next, value);
+	else
+		return count_matches(node->next, value);
+}
+
+bool is_member(Node *node, int value)
+{
+	if (node == NULL)
+		return false;
+	else if (node->value == value)
+		return true;
+	else
+		return is_member(node->next, value);
 }
 
 int get_length(Node *head)
