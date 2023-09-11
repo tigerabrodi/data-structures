@@ -32,6 +32,7 @@ int main()
 	return 0;
 }
 
+// append
 Node *append_lists(Node *head1, Node *head2)
 {
 	if (head1 == NULL)
