@@ -32,6 +32,19 @@ int main()
 	return 0;
 }
 
+Node *append_lists(Node *head1, Node *head2)
+{
+	if (head1 == NULL)
+		return head2;
+
+	Node *current = head1;
+	while (current->next != NULL)
+		current = current->next;
+	current->next = head2;
+
+	return head1;
+}
+
 Node *efficient_delete_matches(Node *head, int delete_value, int *num_deleted)
 {
 	*num_deleted = 0;
