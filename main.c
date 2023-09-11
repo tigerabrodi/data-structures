@@ -15,6 +15,7 @@ Node *delete_at_tail(Node *head);
 Node *delete_first_match(Node *head, int delete_value, bool *was_deleted);
 Node *efficient_delete_matches(Node *head, int delete_value, int *num_deleted);
 Node *append_lists(Node *head1, Node *head2);
+Node *reverse_list(Node *head);
 bool is_member(Node *head, int value);
 int count_matches(Node *head, int value);
 int get_length(Node *head);
@@ -30,6 +31,30 @@ int main()
 	print_list(list1_head);
 
 	return 0;
+}
+
+Node *reverse_list(Node *head)
+{
+	if (head == NULL)
+		return NULL;
+
+	if (head->next == NULL)
+		return head;
+
+	Node *current = head;
+	Node *next_node = head->next;
+
+	current->next = NULL;
+
+	while (next_node != NULL)
+	{
+		Node *temp = next_node->next;
+		next_node->next = current;
+		current = next_node;
+		next_node = temp;
+	}
+
+	return current;
 }
 
 // append
