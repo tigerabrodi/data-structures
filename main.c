@@ -17,6 +17,7 @@ Node *efficient_delete_matches(Node *head, int delete_value, int *num_deleted);
 Node *append_lists(Node *head1, Node *head2);
 Node *reverse_list(Node *head);
 Node *insert_after(Node *head, int new_value, int after_value);
+Node *add_values_of_two_lists(Node *head1, Node *head2);
 void delete_list(Node *head);
 bool is_member(Node *head, int value);
 int count_matches(Node *head, int value);
@@ -35,6 +36,58 @@ int main()
 	print_list(list1_head);
 
 	return 0;
+}
+
+Node *add_values_of_two_lists(Node *head1, Node *head2)
+{
+	if (head1 == NULL && head2 == NULL)
+		return NULL;
+	if (head1 == NULL && head2 != NULL)
+		return head2;
+
+	if (head2 == NULL && head1 != NULL)
+		return head1;
+
+	Node *current1 = head1;
+	Node *current2 = head2;
+	Node *new_head = NULL;
+
+	if (current1->next == NULL && current2->next == NULL)
+	{
+		new_head = calloc(1, sizeof(Node));
+		new_head->value = current1->value + current2->value;
+		return new_head;
+	}
+
+	while (current1->next != NULL && current2->next != NULL)
+	{
+		if (new_head == NULL)
+		{
+			new_head = calloc(1, sizeof(Node));
+			new_head->value = current1->value + current2->value;
+		}
+		else
+		{
+			Node *new_node = calloc(1, sizeof(Node));
+			new_node->value = current1->value + current2->value;
+			new_head->next = new_node;
+			// move new head to the next node to continue traversing
+			new_head = new_head->next;
+		}
+		current1 = current1->next;
+		current2 = current2->next;
+	}
+}
+
+void delete_list(Node *head)
+{
+	if (head == NULL)
+		return NULL;
+
+	delete_list(head->next);
+
+	// After the recursive call returns, it's safe to free the current node.
+	free(head);
 }
 
 Node *insert_after(Node *head, int new_value, int after_value)
