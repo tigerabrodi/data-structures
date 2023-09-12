@@ -41,21 +41,26 @@ Node *insert_after(Node *head, int new_value, int after_value)
 {
 	Node *new_node = calloc(1, sizeof(Node));
 	new_node->value = new_value;
+
 	if (head == NULL)
 		return new_node;
 	else
 	{
 		Node *current = head;
+
 		while (current != NULL)
 		{
 			if (current->value == after_value)
 			{
 				new_node->next = current->next;
+
 				current->next = new_node;
+
 				return head;
 			}
 			current = current->next;
 		}
+
 		return head;
 	}
 }
