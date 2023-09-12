@@ -16,6 +16,8 @@ Node *delete_first_match(Node *head, int delete_value, bool *was_deleted);
 Node *efficient_delete_matches(Node *head, int delete_value, int *num_deleted);
 Node *append_lists(Node *head1, Node *head2);
 Node *reverse_list(Node *head);
+Node *insert_after(Node *head, int new_value, int after_value);
+void delete_list(Node *head);
 bool is_member(Node *head, int value);
 int count_matches(Node *head, int value);
 int get_length(Node *head);
@@ -33,6 +35,29 @@ int main()
 	print_list(list1_head);
 
 	return 0;
+}
+
+Node *insert_after(Node *head, int new_value, int after_value)
+{
+	Node *new_node = calloc(1, sizeof(Node));
+	new_node->value = new_value;
+	if (head == NULL)
+		return new_node;
+	else
+	{
+		Node *current = head;
+		while (current != NULL)
+		{
+			if (current->value == after_value)
+			{
+				new_node->next = current->next;
+				current->next = new_node;
+				return head;
+			}
+			current = current->next;
+		}
+		return head;
+	}
 }
 
 void delete_duplicates(Node *head)
