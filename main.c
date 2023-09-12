@@ -41,32 +41,27 @@ int main()
 
 Node *duplicate_list_and_return_new_head(Node *original_head)
 {
-
 	if (original_head == NULL)
 		return NULL;
 
-	Node *current1 = original_head;
-	Node *current2 = NULL;
-	Node *new_head = NULL;
+	Node *new_head = calloc(1, sizeof(Node));
+	new_head->value = original_head->value;
+	new_head->next = NULL;
 
-	while (current1->next != NULL)
+	Node *current1 = original_head->next;
+	Node *current2 = new_head;
+
+	while (current1 != NULL)
 	{
-		if (current2 == NULL)
-		{
-			Node *new_node = calloc(1, sizeof(Node));
-			new_node->value = current1->value;
-			new_node->next = NULL;
-			new_head = new_node;
-			current2 = new_head;
-		}
-		else
-		{
+		// Duplicate the node from the original list
+		Node *new_node = calloc(1, sizeof(Node));
+		new_node->value = current1->value;
+		new_node->next = NULL;
 
-			Node *new_node = calloc(1, sizeof(Node));
-			new_node->value = current1->value;
-			new_node->next = NULL;
-			current2->next = new_node;
-		}
+		// Link the new node to the end of the new list
+		current2->next = new_node;
+
+		// Move to the next nodes
 		current1 = current1->next;
 		current2 = current2->next;
 	}
