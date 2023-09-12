@@ -47,29 +47,31 @@ Node *duplicate_list_and_return_new_head(Node *original_head)
 
 	Node *current1 = original_head;
 	Node *current2 = NULL;
+	Node *new_head = NULL;
 
 	while (current1->next != NULL)
 	{
 		if (current2 == NULL)
 		{
 			Node *new_node = calloc(1, sizeof(Node));
-			new_node->value = original_head->value;
+			new_node->value = current1->value;
 			new_node->next = NULL;
-			current2 = new_node;
+			new_head = new_node;
+			current2 = new_head;
 		}
 		else
 		{
 
 			Node *new_node = calloc(1, sizeof(Node));
-			new_node->value = original_head->value;
+			new_node->value = current1->value;
 			new_node->next = NULL;
-			new_head->next = new_node;
+			current2->next = new_node;
 		}
 		current1 = current1->next;
 		current2 = current2->next;
 	}
 
-	return current2;
+	return new_head;
 }
 
 Node *add_values_of_two_lists(Node *head1, Node *head2)
