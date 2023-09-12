@@ -18,6 +18,7 @@ Node *append_lists(Node *head1, Node *head2);
 Node *reverse_list(Node *head);
 Node *insert_after(Node *head, int new_value, int after_value);
 Node *add_values_of_two_lists(Node *head1, Node *head2);
+Node *duplicate_list_and_return_new_head(Node *node);
 void delete_list(Node *head);
 bool is_member(Node *head, int value);
 int count_matches(Node *head, int value);
@@ -36,6 +37,39 @@ int main()
 	print_list(list1_head);
 
 	return 0;
+}
+
+Node *duplicate_list_and_return_new_head(Node *original_head)
+{
+
+	if (original_head == NULL)
+		return NULL;
+
+	Node *current1 = original_head;
+	Node *current2 = NULL;
+
+	while (current1->next != NULL)
+	{
+		if (current2 == NULL)
+		{
+			Node *new_node = calloc(1, sizeof(Node));
+			new_node->value = original_head->value;
+			new_node->next = NULL;
+			current2 = new_node;
+		}
+		else
+		{
+
+			Node *new_node = calloc(1, sizeof(Node));
+			new_node->value = original_head->value;
+			new_node->next = NULL;
+			new_head->next = new_node;
+		}
+		current1 = current1->next;
+		current2 = current2->next;
+	}
+
+	return current2;
 }
 
 Node *add_values_of_two_lists(Node *head1, Node *head2)
