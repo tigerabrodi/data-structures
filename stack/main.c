@@ -1,47 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Define the Node structure
 typedef struct Node
 {
-	int data;	   // store the data in the node
-	struct Node *next; // pointer to the next node
+	int data;
+	struct Node *next;
 } Node;
 
-// Define the Stack structure
 typedef struct Stack
 {
-	Node *top; // pointer to the top node
+	Node *top;
 } Stack;
 
-// Function to create a new stack
 Stack *createStack()
 {
 	Stack *newStack = (Stack *)malloc(sizeof(Stack));
-	newStack->top = NULL; // Initialize top as NULL
+	newStack->top = NULL;
 	return newStack;
 }
 
-// Push operation
 void push(Stack *stack, int value)
 {
-	// TODO:
-	// 1. Allocate memory for a new node
-	// 2. Set the data of the node to the given value
-	// 3. Point the 'next' of this node to the current top of the stack
-	// 4. Update the top of the stack to this new node
-}
-
-// Pop operation
-int pop(Stack *stack)
-{
-	// TODO:
-	// 1. Check if stack is empty. If yes, print "Stack Underflow" and return some error value (e.g., -1)
-	// 2. If not empty, get the value of the top node
-	// 3. Update the top to point to the next node
-	// 4. Free the memory of the old top node
-	// 5. Return the value of the node that was removed
-	return 0; // Placeholder return
+	Node *newNode = (Node *)malloc(sizeof(Node));
+	newNode->data = value;
+	newNode->next = stack->top;
+	stack->top = newNode;
 }
 
 // Peek operation
