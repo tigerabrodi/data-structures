@@ -54,13 +54,9 @@ int peek(Stack *stack)
 	return stack->top->data;
 }
 
-// Check if stack is empty
 int isEmpty(Stack *stack)
 {
-	// TODO:
-	// 1. Check if top is NULL. If yes, return 1 (True)
-	// 2. Otherwise, return 0 (False)
-	return 0; // Placeholder return
+	return stack->top == NULL ? 1 : 0;
 }
 
 int main()
