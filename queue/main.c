@@ -86,6 +86,17 @@ int isEmpty(Queue *q)
 	return q->front == NULL ? true : false;
 }
 
+void freeQueue(Queue *q)
+{
+	while (!isEmpty(q))
+	{
+		QNode *temp = q->front;
+		q->front = q->front->next;
+		free(temp);
+	}
+	free(q);
+}
+
 int main()
 {
 	// Initialize a new queue
