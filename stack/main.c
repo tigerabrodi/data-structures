@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct Node
 {
@@ -22,6 +23,11 @@ Stack *createStack()
 void push(Stack *stack, int value)
 {
 	Node *newNode = (Node *)malloc(sizeof(Node));
+	if (newNode == NULL)
+	{
+		perror("Memory allocation failed");
+		exit(EXIT_FAILURE);
+	}
 	newNode->data = value;
 	newNode->next = stack->top;
 	stack->top = newNode;
@@ -44,7 +50,6 @@ int pop(Stack *stack)
 
 int peek(Stack *stack)
 {
-	// 1. Check if stack is empty. If yes, print "Stack is empty" and return some error value (e.g., -1)
 	if (stack->top == NULL)
 	{
 		printf("Stack is empty");
@@ -56,7 +61,7 @@ int peek(Stack *stack)
 
 int isEmpty(Stack *stack)
 {
-	return stack->top == NULL ? 1 : 0;
+	return stack->top == NULL ? true : false;
 }
 
 int main()
