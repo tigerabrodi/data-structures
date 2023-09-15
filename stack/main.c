@@ -27,6 +27,21 @@ void push(Stack *stack, int value)
 	stack->top = newNode;
 }
 
+int pop(Stack *stack)
+{
+	if (stack->top == NULL)
+	{
+		printf("Stack Underflow");
+		return -1;
+	}
+
+	Node *temp = stack->top;
+	int value = temp->data;
+	stack->top = stack->top->next;
+	free(temp);
+	return value;
+}
+
 // Peek operation
 int peek(Stack *stack)
 {
