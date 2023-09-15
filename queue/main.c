@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-// Node structure for our Queue
 typedef struct QNode
 {
 	int data;
@@ -11,8 +11,8 @@ typedef struct QNode
 // Queue structure
 typedef struct Queue
 {
-	QNode *front; // points to the front node in the queue
-	QNode *rear;  // points to the rear node in the queue
+	QNode *front;
+	QNode *rear;
 } Queue;
 
 Queue *initializeQueue()
@@ -71,19 +71,31 @@ int dequeue(Queue *q)
 
 int peek(Queue *q)
 {
-	// TODO: Implement function
-	return -1; // Placeholder return
+	if (q->front == NULL)
+	{
+		printf("Queue is empty!\n");
+		return -1;
+	}
+
+	return q->front->data;
 }
 
 int isEmpty(Queue *q)
 {
-	// TODO: Implement function
-	return 1; // Placeholder return
+
+	return q->front == NULL ? true : false;
 }
 
 void freeQueue(Queue *q)
 {
-	// TODO: Implement function
+	if (q->front == NULL)
+	{
+		free(q);
+		return;
+	}
+
+	dequeue(q);
+	freeQueue(q);
 }
 
 int main()
