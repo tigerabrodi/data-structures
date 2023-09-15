@@ -52,8 +52,21 @@ void enqueue(Queue *q, int value)
 
 int dequeue(Queue *q)
 {
-	// TODO: Implement function
-	return -1; // Placeholder return
+	if (q->front == NULL)
+	{
+		printf("Queue is empty!\n");
+		return -1;
+	}
+	QNode *temp = q->front;
+	int data = temp->data;
+	q->front = q->front->next;
+	if (q->front == NULL)
+	{
+		q->rear = NULL;
+	}
+	free(temp);
+
+	return data;
 }
 
 int peek(Queue *q)
