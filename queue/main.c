@@ -15,9 +15,39 @@ typedef struct Queue
 	QNode *rear;  // points to the rear node in the queue
 } Queue;
 
+Queue *initializeQueue()
+{
+	Queue *new_queue = (Queue *)malloc(sizeof(Queue));
+	if (new_queue == NULL)
+	{
+		printf("Memory allocation failed!\n");
+		exit(1);
+	}
+	new_queue->front = NULL;
+	new_queue->rear = NULL;
+
+	return new_queue;
+}
+
 void enqueue(Queue *q, int value)
 {
-	// TODO: Implement function
+	QNode *new_node = (QNode *)malloc(sizeof(QNode));
+	if (new_node == NULL)
+	{
+		printf("Memory allocation failed!\n");
+		exit(1);
+	}
+	new_node->data = value;
+	if (q->front == NULL)
+	{
+		q->front = new_node;
+		q->rear = new_node;
+	}
+	else
+	{
+		q->rear->next = new_node;
+		q->rear = new_node;
+	}
 }
 
 int dequeue(Queue *q)
