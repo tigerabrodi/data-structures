@@ -42,13 +42,16 @@ int pop(Stack *stack)
 	return value;
 }
 
-// Peek operation
 int peek(Stack *stack)
 {
-	// TODO:
 	// 1. Check if stack is empty. If yes, print "Stack is empty" and return some error value (e.g., -1)
-	// 2. If not empty, return the value of the top node
-	return 0; // Placeholder return
+	if (stack->top == NULL)
+	{
+		printf("Stack is empty");
+		return -1;
+	}
+
+	return stack->top->data;
 }
 
 // Check if stack is empty
