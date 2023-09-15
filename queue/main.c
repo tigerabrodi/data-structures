@@ -86,18 +86,6 @@ int isEmpty(Queue *q)
 	return q->front == NULL ? true : false;
 }
 
-void freeQueue(Queue *q)
-{
-	if (q->front == NULL)
-	{
-		free(q);
-		return;
-	}
-
-	dequeue(q);
-	freeQueue(q);
-}
-
 int main()
 {
 	// Initialize a new queue
