@@ -42,8 +42,17 @@ HashTable *createHashTable()
 
 unsigned int hashFunction(const char *key)
 {
-	// step 1: Implement a hash function. For simplicity, you can sum up the ASCII values of the characters in the key and modulo with TABLE_SIZE.
-	return 0; // Placeholder return.
+	int hash = 0;
+
+	// compute length outside loop to avoid calling strlen() on each iteration which is O(n^2)
+	int length = strlen(key);
+	for (int i = 0; i < length; i++)
+	{
+		// The multiplication is to ensure that strings like "ab" and "ba" don't have the same hash.
+		hash += key[i] * (i + 1);
+	}
+
+	return hash % TABLE_SIZE;
 }
 
 void insert(HashTable *table, const char *key, const char *value)
