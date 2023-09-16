@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define TABLE_SIZE 1000 // Define a suitable size for the hash table.
+#define TABLE_SIZE 1000
 
-// Define the node structure for the linked list.
 typedef struct Node
 {
 	char *key;
@@ -12,13 +11,11 @@ typedef struct Node
 	struct Node *next;
 } Node;
 
-// Define the hash table structure.
 typedef struct HashTable
 {
 	Node *buckets[TABLE_SIZE];
 } HashTable;
 
-// Function prototypes
 HashTable *createHashTable();
 unsigned int hashFunction(const char *key);
 void insert(HashTable *table, const char *key, const char *value);
@@ -29,8 +26,17 @@ void freeHashTable(HashTable *table);
 HashTable *createHashTable()
 {
 	HashTable *newTable = (HashTable *)malloc(sizeof(HashTable));
-	// step 1: Check if memory allocation was successful. If not, exit with an error message.
-	// step 2: Initialize all the bucket pointers to NULL.
+	if (newTable == NULL)
+	{
+		printf("Error: Could not allocate memory for the hash table.\n");
+		exit(1);
+	}
+
+	for (int i = 0; i < TABLE_SIZE; i++)
+	{
+		newTable->buckets[i] = NULL;
+	}
+
 	return newTable;
 }
 
