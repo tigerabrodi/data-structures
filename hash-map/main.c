@@ -112,9 +112,35 @@ char *get(HashTable *table, const char *key)
 
 void delete(HashTable *table, const char *key)
 {
-	// step 1: Calculate the hash for the given key using the hash_function.
-	// step 2: Traverse the linked list at the calculated hash index and find the node with the given key.
-	// step 3: If found, delete the node and free the memory. Adjust the pointers accordingly. If not found, print an appropriate message.
+	unsigned int hash = hash_function(key);
+
+	Node *prev = NULL;
+	Node *current = table->buckets[hash];
+
+	while (current != NULL)
+	{
+		if (strcmp(current->key, key) == 0)
+		{
+			if (prev == NULL)
+			{
+				// Node to delete is the head of the list for this bucket
+				table->buckets[hash] = current->next;
+			}
+			else
+			{
+				prev->next = current->next;
+			}
+
+			free(current->key);
+			free(current->value);
+			free(current);
+			return;
+		}
+
+		prev = current;
+		current = current->next;
+	}
+	printf("Error: Key not found in hash table.\n");
 }
 
 void free_hash_table(HashTable *table)
