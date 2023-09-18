@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 // The DynamicArray struct should contain a pointer to the underlying array,
 // the current size (number of elements actually stored), and its capacity (maximum number of elements it can store without resizing).
@@ -50,13 +51,20 @@ void dynamic_array_resize(DynamicArray *arr, size_t new_capacity)
 	arr->capacity = new_capacity;
 }
 
-// Add an element to the end of the dynamic array
 void dynamic_array_append(DynamicArray *arr, int value)
 {
-	// 1. Check if there is enough capacity to add a new element.
-	// 2. If not, resize the array (typically to double its current capacity).
-	// 3. Add the new element.
-	// 4. Increment the 'size'.
+	bool is_enough_capacity = arr->size < arr->capacity;
+	if (is_enough_capacity)
+	{
+		arr->data[arr->size] = value;
+		arr->size++;
+	}
+	else
+	{
+		dynamic_array_resize(arr, arr->capacity * 2);
+		arr->data[arr->size] = value;
+		arr->size++;
+	}
 }
 
 // Remove the last element of the dynamic array
