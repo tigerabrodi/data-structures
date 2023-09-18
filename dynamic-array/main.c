@@ -5,9 +5,9 @@
 // the current size (number of elements actually stored), and its capacity (maximum number of elements it can store without resizing).
 typedef struct
 {
-	int *data;	 // Pointer to the underlying integer array
-	size_t size;	 // Number of elements currently stored
-	size_t capacity; // Current maximum capacity of the array
+	int *data;
+	size_t size;
+	size_t capacity;
 } DynamicArray;
 
 // Initialize a new dynamic array
