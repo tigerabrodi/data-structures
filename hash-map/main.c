@@ -58,8 +58,23 @@ unsigned int hashFunction(const char *key)
 void insert(HashTable *table, const char *key, const char *value)
 {
 	// step 1: Calculate the hash for the given key using the hashFunction.
+	unsigned int hash = hashFunction(key);
 	// step 2: Check if a node with the given key already exists in the linked list at the calculated hash index. If yes, update its value.
+
+	for (Node *node = table->buckets[hash]; node != NULL; node = node->next)
+	{
+		if (strcmp(node->key, key) == 0)
+		{
+			node->value = value;
+			return;
+		}
+	}
+
 	// step 3: If not, create a new node, assign the key and value, and insert it at the beginning of the linked list for that bucket.
+	Node *new_node = (Node *)malloc(sizeof(Node));
+	new_node->key = key;
+	new_node->value = value;
+	new_node->next = NULL;
 }
 
 char *get(HashTable *table, const char *key)
