@@ -16,14 +16,14 @@ typedef struct HashTable
 	Node *buckets[TABLE_SIZE];
 } HashTable;
 
-HashTable *create_hash_function();
+HashTable *create_hash_table();
 unsigned int hash_function(const char *key);
 void insert(HashTable *table, const char *key, const char *value);
 char *get(HashTable *table, const char *key);
 void delete(HashTable *table, const char *key);
 void free_hash_table(HashTable *table);
 
-HashTable *create_hash_function()
+HashTable *create_hash_table()
 {
 	HashTable *newTable = (HashTable *)malloc(sizeof(HashTable));
 	if (newTable == NULL)
@@ -158,12 +158,14 @@ void free_hash_table(HashTable *table)
 			free(temp);
 		}
 	}
+
+	free(table);
 }
 
 int main()
 {
 	// Create a new hash table
-	HashTable *myTable = create_hash_function();
+	HashTable *myTable = create_hash_table();
 
 	// Insert key-value pairs
 	insert(myTable, "name", "John");
