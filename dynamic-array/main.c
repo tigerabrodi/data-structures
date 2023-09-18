@@ -10,17 +10,27 @@ typedef struct
 	size_t capacity;
 } DynamicArray;
 
-// Initialize a new dynamic array
 DynamicArray *dynamic_array_init(size_t initial_capacity)
 {
-	// 1. Allocate memory for the DynamicArray struct.
-	// 2. Set the initial capacity (you can default to a constant like 4 if 'initial_capacity' is not provided).
-	// 3. Allocate memory for the underlying array with the given initial capacity.
-	// 4. Initialize 'size' to 0 and 'capacity' to the provided value.
-	// 5. Return the initialized DynamicArray.
+	DynamicArray *arr = malloc(sizeof(DynamicArray));
+	if (!arr)
+	{
+		printf("Error: memory allocation failed\n");
+		return NULL;
+	}
+	arr->capacity = initial_capacity ? initial_capacity : 4;
+	arr->data = malloc(sizeof(int) * arr->capacity);
+	if (!arr->data)
+	{
+		printf("Error: memory allocation failed\n");
+		free(arr);
+		return NULL;
+	}
+
+	arr->size = 0;
+	return arr;
 }
 
-// Resize the dynamic array's underlying storage
 void dynamic_array_resize(DynamicArray *arr, size_t new_capacity)
 {
 	// 1. Allocate new memory of size 'new_capacity'.
