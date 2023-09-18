@@ -70,7 +70,7 @@ void insert(HashTable *table, const char *key, const char *value)
 		}
 	}
 
-		// If the key does not exist in the hash table, create a new node and insert it at the head of the linked list
+	// If the key does not exist in the hash table, create a new node and insert it at the head of the linked list
 	Node *new_node = (Node *)malloc(sizeof(Node));
 	if (new_node == NULL)
 	{
@@ -98,10 +98,16 @@ void insert(HashTable *table, const char *key, const char *value)
 
 char *get(HashTable *table, const char *key)
 {
-	// step 1: Calculate the hash for the given key using the hashFunction.
-	// step 2: Traverse the linked list at the calculated hash index to find the node with the given key.
-	// step 3: If found, return the value. If not found, return NULL or an appropriate message.
-	return NULL; // Placeholder return.
+	unsigned int hash = hashFunction(key);
+	for (Node *node = table->buckets[hash]; node != NULL; node = node->next)
+	{
+		if (strcmp(node->key, key) == 0)
+		{
+			return node->value;
+		}
+	}
+
+	return NULL;
 }
 
 void delete(HashTable *table, const char *key)
