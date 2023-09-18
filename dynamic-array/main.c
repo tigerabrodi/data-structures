@@ -33,11 +33,21 @@ DynamicArray *dynamic_array_init(size_t initial_capacity)
 
 void dynamic_array_resize(DynamicArray *arr, size_t new_capacity)
 {
-	// 1. Allocate new memory of size 'new_capacity'.
-	// 2. Copy elements from old array to the new one.
-	// 3. Free the old array memory.
-	// 4. Update the data pointer in 'arr' to point to the new memory.
-	// 5. Update 'capacity' to 'new_capacity'.
+	int *new_data = malloc(sizeof(int) * new_capacity);
+	if (!new_data)
+	{
+		printf("Error: memory allocation failed\n");
+		return;
+	}
+
+	for (size_t i = 0; i < arr->size; i++)
+	{
+		new_data[i] = arr->data[i];
+	}
+
+	free(arr->data);
+	arr->data = new_data;
+	arr->capacity = new_capacity;
 }
 
 // Add an element to the end of the dynamic array
