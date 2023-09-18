@@ -16,14 +16,14 @@ typedef struct HashTable
 	Node *buckets[TABLE_SIZE];
 } HashTable;
 
-HashTable *createHashTable();
-unsigned int hashFunction(const char *key);
+HashTable *create_hash_function();
+unsigned int hash_function(const char *key);
 void insert(HashTable *table, const char *key, const char *value);
 char *get(HashTable *table, const char *key);
 void delete(HashTable *table, const char *key);
-void freeHashTable(HashTable *table);
+void free_hash_table(HashTable *table);
 
-HashTable *createHashTable()
+HashTable *create_hash_function()
 {
 	HashTable *newTable = (HashTable *)malloc(sizeof(HashTable));
 	if (newTable == NULL)
@@ -40,7 +40,7 @@ HashTable *createHashTable()
 	return newTable;
 }
 
-unsigned int hashFunction(const char *key)
+unsigned int hash_function(const char *key)
 {
 	int hash = 0;
 
@@ -57,7 +57,7 @@ unsigned int hashFunction(const char *key)
 
 void insert(HashTable *table, const char *key, const char *value)
 {
-	unsigned int hash = hashFunction(key);
+	unsigned int hash = hash_function(key);
 
 	// Check if the key already exists in the hash table
 	for (Node *node = table->buckets[hash]; node != NULL; node = node->next)
@@ -98,7 +98,7 @@ void insert(HashTable *table, const char *key, const char *value)
 
 char *get(HashTable *table, const char *key)
 {
-	unsigned int hash = hashFunction(key);
+	unsigned int hash = hash_function(key);
 	for (Node *node = table->buckets[hash]; node != NULL; node = node->next)
 	{
 		if (strcmp(node->key, key) == 0)
@@ -112,12 +112,12 @@ char *get(HashTable *table, const char *key)
 
 void delete(HashTable *table, const char *key)
 {
-	// step 1: Calculate the hash for the given key using the hashFunction.
+	// step 1: Calculate the hash for the given key using the hash_function.
 	// step 2: Traverse the linked list at the calculated hash index and find the node with the given key.
 	// step 3: If found, delete the node and free the memory. Adjust the pointers accordingly. If not found, print an appropriate message.
 }
 
-void freeHashTable(HashTable *table)
+void free_hash_table(HashTable *table)
 {
 	// step 1: Traverse through each bucket of the hash table.
 	// step 2: For each bucket, free the memory of each node in the linked list.
@@ -127,7 +127,7 @@ void freeHashTable(HashTable *table)
 int main()
 {
 	// Create a new hash table
-	HashTable *myTable = createHashTable();
+	HashTable *myTable = create_hash_function();
 
 	// Insert key-value pairs
 	insert(myTable, "name", "John");
@@ -145,7 +145,7 @@ int main()
 	printf("City: %s\n", get(myTable, "city")); // Expected: (Some error message or NULL indication)
 
 	// Cleanup resources
-	freeHashTable(myTable);
+	free_hash_table(myTable);
 
 	return 0;
 }
