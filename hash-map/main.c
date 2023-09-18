@@ -145,9 +145,19 @@ void delete(HashTable *table, const char *key)
 
 void free_hash_table(HashTable *table)
 {
-	// step 1: Traverse through each bucket of the hash table.
-	// step 2: For each bucket, free the memory of each node in the linked list.
-	// step 3: Once all nodes in all buckets are freed, free the memory of the hash table.
+	for (int i = 0; i < TABLE_SIZE; i++)
+	{
+		Node *node = table->buckets[i];
+		while (node != NULL)
+		{
+			Node *temp = node;
+			node = node->next;
+
+			free(temp->key);
+			free(temp->value);
+			free(temp);
+		}
+	}
 }
 
 int main()
