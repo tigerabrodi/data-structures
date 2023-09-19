@@ -80,31 +80,48 @@ Heap *init_heap(int capacity)
 	return heap;
 }
 
-// Insert a new element into the heap.
 void insert(Heap *heap, int value)
 {
-	// 1. Check if the heap is full. If so, you can resize or return an error.
-	// 2. Add the new element to the next available position in the data array.
-	// 3. Increase the heap's size.
-	// 4. "Bubble up" the new element:
-	//    a. While the inserted element is smaller than its parent:
-	//       i. Swap the element with its parent.
-	//       ii. Update the current position to be the parent's position.
+	// 1. Check if the heap has reached its capacity.
+	//    - If heap->size is equal to heap->capacity, then the heap is full.
+	//    - You may either return an error message or resize the heap array to accommodate more elements.
+
+	// 2. If there's space, insert the new value at the end of the array (heap->data).
+	//    - Remember, heap->data[heap->size] will be the position of the new value.
+
+	// 3. Increment the size of the heap.
+	//    - This means increasing heap->size by 1.
+
+	// 4. Now, it's time to ensure the min-heap property is maintained.
+	//    - Start "bubbling up" the newly inserted value.
+	//       a. Using a while loop or recursive function, check if the inserted value is smaller than its parent.
+	//          i. Use the formula (current_index - 1) / 2 to get the parent's index.
+	//          ii. If the value at the current position is less than its parent's value, swap them.
+	//          iii. Set the current index to the parent's index and repeat the loop/recursive call.
 }
 
-// Get (and remove) the smallest element from the heap.
 int pop_min(Heap *heap)
 {
-	// 1. Ensure the heap isn't empty.
-	// 2. Save the top value (this is the minimum for a min-heap).
-	// 3. Move the last value in the heap to the top.
-	// 4. Reduce the size of the heap by one.
-	// 5. "Bubble down" the swapped value to its proper position:
-	//    a. While the element has children and is larger than at least one of its children:
-	//       i. Identify the smallest child.
-	//       ii. Swap the element with the smallest child.
-	//       iii. Update the current position to the child's position.
-	// 6. Return the saved top value.
+	// 1. First, check if the heap is empty.
+	//    - If heap->size is 0, print an error or handle it as you see fit. Possibly return a sentinel value like -1 or INT_MIN.
+
+	// 2. Store the minimum value (which is at the top/root of the heap).
+	//    - Use an integer variable, e.g., min_value = heap->data[0].
+
+	// 3. Replace the root of the heap with the last element in the heap.
+	//    - This means setting heap->data[0] to heap->data[heap->size - 1].
+
+	// 4. Now, decrease the size of the heap.
+	//    - Decrement heap->size by 1.
+
+	// 5. As we've disturbed the min-heap property by replacing the root, we need to "bubble down".
+	//    - Using a loop or recursive function, perform the following while the current element has children:
+	//       a. Determine the index of the smaller child (could be left or right).
+	//       b. If the current value is larger than the smallest child's value, swap them.
+	//       c. Update the current position to the swapped child's position and repeat.
+
+	// 6. After the element has been bubbled down to its appropriate position, you can return the stored min_value.
+	return min_value;
 }
 
 int peek(Heap *heap)
