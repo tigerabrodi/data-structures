@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 typedef struct
 {
@@ -32,6 +33,7 @@ void bubble_up(Heap *heap, int index)
 
 void bubble_down(Heap *heap, int index)
 {
+	// If index is out of heap's bounds
 	if (index >= heap->size)
 	{
 		return;
@@ -39,37 +41,44 @@ void bubble_down(Heap *heap, int index)
 
 	int left_child_index = 2 * index + 1;
 	int right_child_index = 2 * index + 2;
-	int left_child = heap->data[left_child_index];
-	int right_child = heap->data[right_child_index];
+
+	// Initialize both children's values to an invalid value.
+	// INT_MAX is a convenient value because we're working with a min-heap.
+	int left_child = INT_MAX;
+	int right_child = INT_MAX;
+
+	// Check if child indices are within bounds before fetching values
+	if (left_child_index < heap->size)
+	{
+		left_child = heap->data[left_child_index];
+	}
+
+	if (right_child_index < heap->size)
+	{
+		right_child = heap->data[right_child_index];
+	}
+
+	// impossible tbh
+	if (right_child == INT_MAX && left_child == INT_MAX)
+	{
+		return;
+	}
+
 	int child_to_use;
 	int child_index;
 
-	if (left_child && right_child)
-	{
-		if (left_child < right_child)
-		{
-			child_to_use = left_child;
-			child_index = left_child_index;
-		}
-		else
-		{
-			child_to_use = right_child;
-			child_index = right_child_index;
-		}
-	}
-
-	if (left_child && !right_child)
+	if (left_child < right_child)
 	{
 		child_to_use = left_child;
 		child_index = left_child_index;
 	}
-
-	if (!left_child && right_child)
+	else
 	{
 		child_to_use = right_child;
 		child_index = right_child_index;
 	}
 
+	// If the current node is larger than the smallest child, swap and recurse
 	if (heap->data[index] > child_to_use)
 	{
 		swap(&heap->data[index], child_to_use);
