@@ -59,16 +59,25 @@ void bubble_down(Heap *heap, int index)
 	//          - Call bubble_down recursively, but this time with the smaller_child_index.
 }
 
-// Initialize a heap with a given capacity.
 Heap *init_heap(int capacity)
 {
-	// 1. Allocate memory for the Heap struct itself using malloc().
-	// 2. Check if memory allocation was successful.
-	// 3. Initialize the heap's capacity with the given value.
-	// 4. Set the heap's size to 0.
-	// 5. Allocate memory for the heap's data array using malloc().
-	// 6. Check if memory allocation for data was successful.
-	// 7. Return the initialized heap.
+	Heap *heap = malloc(sizeof(Heap));
+	if (!heap)
+	{
+		printf("Error: memory allocation failed\n");
+		return NULL;
+	}
+	heap->capacity = capacity;
+	heap->size = 0;
+	heap->data = malloc(sizeof(int) * capacity);
+	if (!heap->data)
+	{
+		printf("Error: memory allocation failed\n");
+		free(heap);
+		return NULL;
+	}
+
+	return heap;
 }
 
 // Insert a new element into the heap.
