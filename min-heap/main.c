@@ -88,20 +88,32 @@ int peek(Heap *heap)
 
 void free_heap(Heap *heap)
 {
-	// 1. Free the data array inside the heap using free().
-	// 2. Free the heap struct itself.
+	free(heap->data);
+	free(heap);
 }
 
 int main()
 {
-	// 1. Initialize a heap with a capacity of, say, 10.
-	// 2. Insert some numbers into the heap. For example: 3, 8, 5, 12, etc.
-	// 3. Peek at the heap's top and print the value (should be the smallest number you've inserted).
-	// 4. Pop a number from the heap and print it.
-	// 5. Again, peek at the heap's top and print the value to ensure the pop worked.
-	// 6. Insert a few more numbers.
-	// 7. Peek at the top again and print the value.
-	// 8. Free the heap to avoid memory leaks.
+	// 1. Initialize the heap with some capacity, say 10.
+	Heap *heap = heap_init(10);
+
+	// 2. Insert some elements.
+	heap_insert(heap, 5);
+	heap_insert(heap, 2);
+	heap_insert(heap, 8);
+	heap_insert(heap, 1);
+
+	// 3. Peek the minimum element. Should be 1.
+	printf("Min element: %d\n", heap_peek(heap));
+
+	// 4. Extract the minimum element. Should extract 1.
+	printf("Extracted element: %d\n", heap_extract_min(heap));
+
+	// 5. Again peek the minimum element. Now it should be 2.
+	printf("Min element: %d\n", heap_peek(heap));
+
+	// 6. Cleanup by freeing heap memory.
+	heap_free(heap);
 
 	return 0;
 }
