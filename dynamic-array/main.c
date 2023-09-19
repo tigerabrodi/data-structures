@@ -67,12 +67,15 @@ void dynamic_array_append(DynamicArray *arr, int value)
 	}
 }
 
-// Remove the last element of the dynamic array
 void dynamic_array_pop(DynamicArray *arr)
 {
-	// 1. Check if the array is empty.
-	// 2. If not, decrement the 'size'.
-	// 3. (Optional) If size is much smaller than capacity, you may decide to reduce the capacity to save memory.
+	if (arr->size == 0)
+	{
+		printf("Error: array is empty\n");
+		return;
+	}
+
+	arr->size--;
 }
 
 // Access an element at a particular index
