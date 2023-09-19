@@ -17,46 +17,64 @@ void swap(int *a, int *b)
 
 void bubble_up(Heap *heap, int index)
 {
-	// 1. Determine if we're at the root node.
-	//    - If the current index is 0, we are at the root. No further action is needed.
-	//    - Hint: Use a conditional statement to check the index value.
+	if (index == 0)
+	{
+		return;
+	}
 
-	// 2. If we're not at the root, find the parent node's index.
-	//    - Use the formula: (index - 1) / 2.
-	//    - Store the result in an integer variable, e.g., parent_index.
-
-	// 3. Compare the current node's value with the parent node's value.
-	//    - Access the heap data using heap->data[index] and heap->data[parent_index].
-
-	// 4. Check if the current node's value is smaller than its parent's value (because we're building a min-heap).
-	//    - If it's smaller:
-	//       a. Swap the values of the current node and its parent node.
-	//          - Hint: Use the swap function with addresses of the two values.
-	//       b. Since we made a swap, we need to ensure the properties of the heap are maintained.
-	//          - Call bubble_up recursively, but this time with the parent_index.
+	int parent_index = (index - 1) / 2; // formula to get parent index
+	if (heap->data[index] < heap->data[parent_index])
+	{
+		swap(&heap->data[index], &heap->data[parent_index]);
+		bubble_up(heap, parent_index);
+	}
 }
 
 void bubble_down(Heap *heap, int index)
 {
-	// 1. Calculate the indices of the left and right children.
-	//    - Use the formulas: left_child = 2 * index + 1 and right_child = 2 * index + 2.
+	if (index >= heap->size)
+	{
+		return;
+	}
 
-	// 2. Check if the current node (index) is out of the heap's bounds.
-	//    - If index >= heap->size, then the current node doesn't exist, and we can simply return.
-	//    - Hint: Use a conditional statement to exit early if the index is out of bounds.
+	int left_child_index = 2 * index + 1;
+	int right_child_index = 2 * index + 2;
+	int left_child = heap->data[left_child_index];
+	int right_child = heap->data[right_child_index];
+	int child_to_use;
+	int child_index;
 
-	// 3. Find out which child (left or right) has a smaller value.
-	//    - First, ensure both children exist. If only one exists, use that one.
-	//    - Otherwise, compare the values of both children and decide which is smaller.
-	//    - Store the index of the smaller child in a variable, e.g., smaller_child_index.
-	//    - Hint: You may need a couple of conditional statements to handle these checks.
+	if (left_child && right_child)
+	{
+		if (left_child < right_child)
+		{
+			child_to_use = left_child;
+			child_index = left_child_index;
+		}
+		else
+		{
+			child_to_use = right_child;
+			child_index = right_child_index;
+		}
+	}
 
-	// 4. Now, compare the current node's value with the smaller child's value.
-	//    - If the current node's value is larger (since this is a min-heap):
-	//       a. Swap the values of the current node and the smaller child node.
-	//          - Hint: Use the swap function with addresses of the two values.
-	//       b. We need to ensure the properties of the heap below this node.
-	//          - Call bubble_down recursively, but this time with the smaller_child_index.
+	if (left_child && !right_child)
+	{
+		child_to_use = left_child;
+		child_index = left_child_index;
+	}
+
+	if (!left_child && right_child)
+	{
+		child_to_use = right_child;
+		child_index = right_child_index;
+	}
+
+	if (heap->data[index] > child_to_use)
+	{
+		swap(&heap->data[index], child_to_use);
+		bubble_down(heap, child_index);
+	}
 }
 
 Heap *init_heap(int capacity)
