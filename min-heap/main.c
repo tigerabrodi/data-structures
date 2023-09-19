@@ -124,25 +124,19 @@ void insert(Heap *heap, int value)
 
 int pop_min(Heap *heap)
 {
-	// 1. First, check if the heap is empty.
-	//    - If heap->size is 0, print an error or handle it as you see fit. Possibly return a sentinel value like -1 or INT_MIN.
+	if (heap->size == 0)
+	{
+		printf("Error: heap is empty\n");
+		return -1;
+	}
 
-	// 2. Store the minimum value (which is at the top/root of the heap).
-	//    - Use an integer variable, e.g., min_value = heap->data[0].
+	int min_value = heap->data[0];
 
-	// 3. Replace the root of the heap with the last element in the heap.
-	//    - This means setting heap->data[0] to heap->data[heap->size - 1].
+	heap->data[0] = heap->data[heap->size - 1];
 
-	// 4. Now, decrease the size of the heap.
-	//    - Decrement heap->size by 1.
+	heap->size--;
 
-	// 5. As we've disturbed the min-heap property by replacing the root, we need to "bubble down".
-	//    - Using a loop or recursive function, perform the following while the current element has children:
-	//       a. Determine the index of the smaller child (could be left or right).
-	//       b. If the current value is larger than the smallest child's value, swap them.
-	//       c. Update the current position to the swapped child's position and repeat.
-
-	// 6. After the element has been bubbled down to its appropriate position, you can return the stored min_value.
+	bubble_down(heap, 0);
 	return min_value;
 }
 
