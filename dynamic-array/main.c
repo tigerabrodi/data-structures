@@ -78,14 +78,20 @@ void dynamic_array_pop(DynamicArray *arr)
 	arr->size--;
 }
 
-// Access an element at a particular index
 int dynamic_array_get(DynamicArray *arr, size_t index)
 {
 	// 1. Check if the index is valid (i.e., it's less than 'size').
-	// 2. Return the element at the specified index.
+	if (index <= arr->size)
+	{
+		return arr->data[index];
+	}
+	else
+	{
+		printf("Error: index out of bounds\n");
+		return -1;
+	}
 }
 
-// Free the dynamic array
 void dynamic_array_free(DynamicArray *arr)
 {
 	// 1. Free the underlying data array.
