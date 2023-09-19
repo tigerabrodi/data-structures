@@ -74,14 +74,18 @@ int pop_min(Heap *heap)
 	// 6. Return the saved top value.
 }
 
-// Peek at the smallest element without removing it.
 int peek(Heap *heap)
 {
 	// 1. Ensure the heap isn't empty.
-	// 2. Return the top value without modifying the heap.
+	if (heap->size == 0)
+	{
+		printf("Error: heap is empty\n");
+		return -1;
+	}
+
+	return heap->data[0];
 }
 
-// Cleanup function to free allocated memory.
 void free_heap(Heap *heap)
 {
 	// 1. Free the data array inside the heap using free().
