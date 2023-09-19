@@ -94,8 +94,8 @@ int dynamic_array_get(DynamicArray *arr, size_t index)
 
 void dynamic_array_free(DynamicArray *arr)
 {
-	// 1. Free the underlying data array.
-	// 2. Free the dynamic array structure itself.
+	free(arr->data);
+	free(arr);
 }
 
 int main()
