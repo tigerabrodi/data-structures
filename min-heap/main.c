@@ -109,22 +109,17 @@ Heap *init_heap(int capacity)
 
 void insert(Heap *heap, int value)
 {
-	// 1. Check if the heap has reached its capacity.
-	//    - If heap->size is equal to heap->capacity, then the heap is full.
-	//    - You may either return an error message or resize the heap array to accommodate more elements.
+	if (heap->size == heap->capacity)
+	{
+		printf("Error: heap is full\n");
+		return;
+	}
 
-	// 2. If there's space, insert the new value at the end of the array (heap->data).
-	//    - Remember, heap->data[heap->size] will be the position of the new value.
+	heap->data[heap->size] = value;
 
-	// 3. Increment the size of the heap.
-	//    - This means increasing heap->size by 1.
+	heap->size++;
 
-	// 4. Now, it's time to ensure the min-heap property is maintained.
-	//    - Start "bubbling up" the newly inserted value.
-	//       a. Using a while loop or recursive function, check if the inserted value is smaller than its parent.
-	//          i. Use the formula (current_index - 1) / 2 to get the parent's index.
-	//          ii. If the value at the current position is less than its parent's value, swap them.
-	//          iii. Set the current index to the parent's index and repeat the loop/recursive call.
+	bubble_up(heap, heap->size - 1);
 }
 
 int pop_min(Heap *heap)
