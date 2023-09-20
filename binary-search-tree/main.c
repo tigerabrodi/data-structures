@@ -37,6 +37,18 @@ Node *create_node(int value)
 	return new_node;
 }
 
+BST *create_bst()
+{
+	BST *new_bst = (BST *)malloc(sizeof(BST));
+	if (new_bst == NULL)
+	{
+		printf("Error: memory allocation failed\n");
+		return NULL;
+	}
+	new_bst->root = NULL;
+	return new_bst;
+}
+
 Node *search(BST *tree, int value)
 {
 	// 1. Create a Node pointer called 'current' and set it to the root of the tree.
