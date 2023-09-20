@@ -105,6 +105,134 @@ Node *search(BST *tree, int value)
 
 void delete(BST *tree, int value)
 {
+	// 1. Initialization
+	// 1.1. Declare and initialize two pointers:
+	//      - `current` pointing to tree->root (to find the node with the target value)
+	//      - `parent` set to NULL (to keep track of `current` node's parent)
+	Node *current = tree->root;
+	Node *parent = NULL;
+
+	// 2. Loop through the tree to find the node to delete (and its parent)
+	// 2.1. Set up a `while` loop with conditions to check:
+	//      - `current` is not NULL
+	//      - `current` value doesn't match the value to delete
+
+	while (current != NULL && current->value != value)
+	{
+		// 2.2. Inside the loop:
+		// 2.2.1. Store the current node in `parent` before updating `current`
+		parent = current;
+
+		// 2.2.2. Decide which direction to move:
+		//      - If the value to delete is LESS than `current->value`,
+		//        set `current` to `current->left`
+		//      - ELSE set `current` to `current->right`
+		if (value < current->value)
+		{
+			current = current->left;
+		}
+		else
+		{
+			current = current->right;
+		}
+	}
+
+	if (current == NULL)
+	{
+		printf("Value not found\n");
+		return;
+	}
+
+	if (current->left == NULL && current->right == NULL)
+	{
+		if (parent->left == current)
+		{
+			parent->left = NULL;
+		}
+		else
+		{
+			parent->right = NULL;
+		}
+
+		free(current);
+		return;
+	}
+
+	if (current->left != NULL && current->right == NULL)
+	{
+		if (parent->left == current)
+		{
+			parent->left = current->left;
+		}
+		else
+		{
+			parent->right = current->left;
+		}
+
+		free(current);
+		return;
+	}
+
+	if (current->left == NULL && current->right != NULL)
+	{
+		if (parent->left == current)
+		{
+			parent->left = current->right;
+		}
+		else
+		{
+			parent->right = current->right;
+		}
+
+		free(current);
+		return;
+	}
+
+	if (current->left != NULL && current->right != NULL)
+	{
+		Node *successor = current->right;
+		while (successor->left != NULL)
+		{
+			successor = successor->left;
+		}
+		current->value = successor->value;
+		delete (tree, successor->value);
+		return;
+	}
+
+	if (parent == NULL)
+	{
+		if (current->left != NULL && current->right == NULL)
+		{
+			tree->root = current->left;
+		}
+		else if (current->left == NULL && current->right != NULL)
+		{
+			tree->root = current->right;
+		}
+		else
+		{
+			Node *successor = current->right;
+			while (successor->left != NULL)
+			{
+				successor = successor->left;
+			}
+			current->value = successor->value;
+			delete (tree, successor->value);
+			return;
+		}
+	}
+
+	if (parent->left == current)
+	{
+		parent->left = NULL;
+	}
+	else
+	{
+		parent->right = NULL;
+	}
+
+	free(current);
 }
 
 void inorder_traversal(Node *node)
