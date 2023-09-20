@@ -49,6 +49,38 @@ BST *create_bst()
 	return new_bst;
 }
 
+void insert(BST *tree, int value)
+{
+	Node *current = tree->root;
+	if (current == NULL)
+	{
+		tree->root = create_node(value);
+		return;
+	}
+
+	while (current != NULL)
+	{
+		if (value < current->value)
+		{
+			if (current->left == NULL)
+			{
+				current->left = create_node(value);
+				return;
+			}
+			current = current->left;
+		}
+		else
+		{
+			if (current->right == NULL)
+			{
+				current->right = create_node(value);
+				return;
+			}
+			current = current->right;
+		}
+	}
+}
+
 Node *search(BST *tree, int value)
 {
 	// 1. Create a Node pointer called 'current' and set it to the root of the tree.
