@@ -23,6 +23,20 @@ Node *search(BST *tree, int value);
 void delete(BST *tree, int value);
 void inorder_traversal(Node *node); // For testing purposes.
 
+Node *create_node(int value)
+{
+	Node *new_node = (Node *)malloc(sizeof(Node));
+	if (new_node == NULL)
+	{
+		printf("Error: memory allocation failed\n");
+		return NULL;
+	}
+	new_node->value = value;
+	new_node->left = NULL;
+	new_node->right = NULL;
+	return new_node;
+}
+
 Node *search(BST *tree, int value)
 {
 	// 1. Create a Node pointer called 'current' and set it to the root of the tree.
