@@ -190,10 +190,14 @@ void delete(BST *tree, int value)
 
 void inorder_traversal(Node *node)
 {
-	// 1. Check if 'node' is not NULL. If it's NULL, you can simply return.
-	// 2. Recursively call inorder_traversal on the 'left' child of 'node'.
-	// 3. Print the value of 'node'.
-	// 4. Recursively call inorder_traversal on the 'right' child of 'node'.
+	if (node == NULL)
+	{
+		return;
+	}
+
+	inorder_traversal(node->left);
+	printf("%d ", node->value);
+	inorder_traversal(node->right);
 }
 
 int main()
