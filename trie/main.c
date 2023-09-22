@@ -95,12 +95,17 @@ bool search_word(Trie *trie, const char *word)
 	return currentNode->is_end_of_word ? true : false;
 }
 
-// Helper Function for delete: Check if a TrieNode is free (has no children).
 bool is_node_free(TrieNode *node)
 {
-	// 1. Loop through each pointer in the `children` array.
-	// 1.1. If any pointer is not NULL, return false.
-	// 2. If all pointers are NULL, return true.
+	for (int i = 0; i < ALPHABET_SIZE; i++)
+	{
+		if (node->children[i] != NULL)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool delete_helper(TrieNode *node, const char *word, int depth)
