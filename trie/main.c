@@ -53,17 +53,27 @@ Trie *init_trie(void)
 
 void insert(Trie *trie, const char *word)
 {
-	// 1. Start at the root of the Trie.
 	TrieNode *currentNode = trie->root;
 
-	// 2. Loop through each character in the word.
-	// 2.1. Calculate the index for the character. Typically, this is `char - 'a'` for lowercase English letters.
+	for (int i = 0; word[i] != '\0'; i++)
+	{
+		int character_index = word[i] - 'a';
 
-	// 2.2. Check if a node for this character already exists at the current node's children.
-	// 2.2.1. If it doesn't exist, create a new TrieNode and insert it into the children.
-	// 2.2.2. Move to the child node.
+		if (currentNode->children[character_index] == NULL)
+		{
+			TrieNode *new_node = init_trie_node();
+			if (new_node == NULL)
+			{
+				printf("Memory allocation failed");
+				return;
+			}
+			currentNode->children[character_index] = new_node;
+		}
 
-	// 3. Once the word is processed, mark the current node as an end of word.
+		currentNode = currentNode->children[character_index];
+	}
+
+	currentNode->is_end_of_word = true;
 }
 
 bool search_word(Trie *trie, const char *word)
