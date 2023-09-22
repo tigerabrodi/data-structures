@@ -110,30 +110,54 @@ bool is_node_free(TrieNode *node)
 
 bool delete_helper(TrieNode *node, const char *word, int depth)
 {
-	// 1. Base case: If Trie is empty, return false.
 	if (node == NULL)
 		return false;
 
-	// 2. If the last character of the word is being processed:
+	// Check if we've reached the end of the word we want to delete.
 	if (depth == strlen(word))
 	{
-		// 2.1. If the current node is the end of the word, unmark it.
-		// 2.2. If the current node doesn't have any children, delete it and return true.
-		// 2.3. Otherwise, simply return false.
+		node->is_end_of_word = false;
+
+		// We can only delete if no children are present that needs this node
+		if (is_node_free(node))
+		{
+			free(node);
+			return true;
+		}
+
+		return false;
 	}
 
-	// 3. Recursive case:
-	// 3.1. Calculate the index for the character.
-	// 3.2. Recursively call deleteHelper for the next depth.
-	// 3.3. After the recursive call, check if the current node doesn't have any children and is not the end of a word. If so, delete it and return true.
-	// 3.4. If the node has children or is an end of another word, return false.
+	int character_index = word[depth] - 'a';
+	// Recursively check the word
+	delete_helper(node->children[character_index], word, depth + 1);
+
+	// no children and not end of word then we can delete, if its end of word, means its a prefix of another word
+	if (is_node_free(node) && !node->is_end_of_word)
+	{
+		free(node);
+		node = NULL;
+		return true;
+	}
+
+	return false;
 }
 
 bool delete_word(Trie *trie, const char *word)
 {
-	// 1. If the Trie is empty or the word is empty, return false.
+	// If the Trie's root is empty or the word is empty, deletion is not possible.
+	if (trie->root == NULL || word == NULL || strlen(word) == 0)
+	{
+		return false;
+	}
 
-	// 2. Call the recursive deleteHelper function starting with the root, word, and depth 0.
+	bool result = delete_helper(trie->root, word, 0);
+	// The result of delete_helper will determine if the root node of the Trie should be deleted or not.
+	if (result)
+	{
+		free(trie->root);
+		trie->root = NULL;
+	}
 }
 
 int main()
