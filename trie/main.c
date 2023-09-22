@@ -11,25 +11,28 @@ typedef struct TrieNode
 	bool is_end_of_word;
 } TrieNode;
 
-// Define the Trie itself
 typedef struct Trie
 {
 	TrieNode *root;
 } Trie;
 
-TrieNode *init_tree_node(void)
+TrieNode *init_trie_node(void)
 {
-	// 1. Allocate memory for a new TrieNode.
-	// 1.1. Use malloc to allocate memory of size TrieNode.
-	// 1.2. Check if memory allocation was successful. If not, return NULL.
+	TrieNode *new_node = (TrieNode *)malloc(sizeof(TrieNode));
 
-	// 2. Initialize all children pointers to NULL.
-	// 2.1. Use a loop to iterate over each pointer in the `children` array.
-	// 2.2. For each pointer, set its value to NULL.
+	if (new_node == NULL)
+	{
+		printf("Memory allocation failed");
+		return NULL;
+	}
 
-	// 3. Set isEndOfWord to false.
+	for (int i = 0; i < ALPHABET_SIZE; i++)
+	{
+		new_node->children[i] = NULL;
+	}
 
-	// 4. Return the new node.
+	new_node->is_end_of_word = false;
+	return new_node;
 }
 
 Trie *init_trie(void)
