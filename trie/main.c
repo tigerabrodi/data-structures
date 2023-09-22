@@ -78,17 +78,21 @@ void insert(Trie *trie, const char *word)
 
 bool search_word(Trie *trie, const char *word)
 {
-	// 1. Start at the root of the Trie.
 	TrieNode *currentNode = trie->root;
 
-	// 2. Loop through each character in the word.
-	// 2.1. Calculate the index for the character.
-	// 2.2. Check if a node for this character exists at the current node's children.
-	// 2.2.1. If it doesn't exist, the word isn't in the Trie. Return false.
-	// 2.2.2. Move to the child node.
+	for (int i = 0; word[i] != '\0'; i++)
+	{
+		int character_index = word[i] - 'a';
 
-	// 3. After processing the word, check if the current node is marked as an end of a word.
-	// 3.1. If it is, return true. Otherwise, return false.
+		if (currentNode->children[character_index] == NULL)
+		{
+			return false;
+		}
+
+		currentNode = currentNode->children[character_index];
+	}
+
+	return currentNode->is_end_of_word ? true : false;
 }
 
 // Helper Function for delete: Check if a TrieNode is free (has no children).
