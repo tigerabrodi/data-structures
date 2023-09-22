@@ -37,15 +37,18 @@ TrieNode *init_trie_node(void)
 
 Trie *init_trie(void)
 {
-	// 1. Allocate memory for a new Trie.
-	// 1.1. Use malloc to allocate memory of size Trie.
-	// 1.2. Check if memory allocation was successful. If not, return NULL.
+	Trie *new_trie = (Trie *)malloc(sizeof(Trie));
 
-	// 2. Initialize the root node.
-	// 2.1. Call initTrieNode() function to get a new TrieNode.
-	// 2.2. Assign this new TrieNode to the root of Trie.
+	if (new_trie == NULL)
+	{
+		printf("Memory allocation failed");
+		return NULL;
+	}
 
-	// 3. Return the Trie.
+	TrieNode *new_node = init_trie_node();
+	new_trie->root = new_node;
+
+	return new_trie;
 }
 
 void insert(Trie *trie, const char *word)
