@@ -5,21 +5,21 @@
 // Define a struct for a node in the adjacency list.
 typedef struct AdjListNode
 {
-	int vertex;		  // This represents the vertex that this node refers to in the graph.
-	struct AdjListNode *next; // Pointer to the next node in the adjacency list.
+	int vertex;
+	struct AdjListNode *next;
 } AdjListNode;
 
 // Define a struct for the adjacency list.
 typedef struct
 {
-	AdjListNode *head; // Pointer to the head node of the list.
+	AdjListNode *head;
 } AdjList;
 
 // Define a struct for the graph.
 typedef struct
 {
-	int numVertices; // Number of vertices in the graph.
-	AdjList *array;	 // An array of adjacency lists. Size of the array will be the number of vertices.
+	int numVertices;
+	AdjList *array;
 } Graph;
 
 AdjListNode *createAdjListNode(int vertex);    // Already defined
@@ -36,16 +36,17 @@ void freeGraph(Graph *graph);
 // Function to create a new adjacency list node.
 AdjListNode *createAdjListNode(int vertex)
 {
-	// 1. Memory Allocation:
-	//    1.1. Use malloc to allocate memory for a new AdjListNode.
-	//    1.2. Check if memory allocation was successful. If not, handle the error (e.g., print an error message and return NULL).
+	AdjListNode *new_node = (AdjListNode *)malloc(sizeof(AdjListNode));
+	if (new_node == NULL)
+	{
+		printf("Memory allocation failed");
+		return NULL;
+	}
 
-	// 2. Node Initialization:
-	//    2.1. Assign the 'vertex' parameter value to the 'vertex' field of the new node.
-	//    2.2. Initialize the 'next' field of the new node to NULL.
+	new_node->vertex = vertex;
+	new_node->next = NULL;
 
-	// 3. Return:
-	//    3.1. Return the newly created AdjListNode.
+	return new_node;
 }
 
 // Function to create a graph.
