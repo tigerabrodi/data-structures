@@ -84,20 +84,26 @@ void removeEdge(Graph *graph, int src, int dest)
 bool isEdge(Graph *graph, int src, int dest)
 {
 	// 1. Vertex Validation:
-	//    1.1. Ensure 'src' and 'dest' are valid vertex indices.
-	//    1.2. If either is invalid, return false without further checks.
+	if (src < 0 || src >= graph->numVertices || dest < 0 || dest >= graph->numVertices)
+	{
+		return false;
+	}
 
 	// 2. Traverse Source's List:
-	//    2.1. Set up a temporary pointer, say 'temp', to start from the head of the adjacency list of 'src'.
+	AdjListNode *temp = graph->array[src].head;
 
 	// 3. Search for Destination Node:
-	//    3.1. Using a while-loop, traverse through the adjacency list.
-	//    3.2. In each iteration, compare 'temp->vertex' with 'dest'.
-	//    3.3. If a match is found, exit the loop early.
+	while (temp != NULL)
+	{
+		if (temp->vertex == dest)
+		{
+			return true; // edge found
+		}
+		temp = temp->next;
+	}
 
-	// 4. Result:
-	//    4.1. After traversal, if 'temp' isn't NULL, return true (edge exists).
-	//    4.2. Otherwise, return false.
+	// 4. If loop completed, edge wasn't found.
+	return false;
 }
 
 void deleteNode(Graph *graph, int vertex)
