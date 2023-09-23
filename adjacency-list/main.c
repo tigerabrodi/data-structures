@@ -101,6 +101,10 @@ void freeGraph(Graph *graph)
 {
 	// 1. Check Graph's Existence:
 	//    1.1. If 'graph' is NULL, return without doing anything.
+	if (graph == NULL)
+	{
+		return;
+	}
 
 	// 2. Deallocate Each Vertex's Adjacency List:
 	//    2.1. For each vertex in the graph:
