@@ -81,18 +81,20 @@ void addEdge(Graph *graph, int src, int dest)
 // Function to print the graph.
 void printGraph(Graph *graph)
 {
-	// 1. Loop Initialization:
-	//    1.1. Initialize a loop to iterate through each vertex of the graph using the 'numVertices' field for the loop limit.
+	for (int i = 0; i < graph->numVertices; i++)
+	{
+		printf("\nAdjacency list of vertex %d: ", i);
 
-	// 2. Print Each Vertex and Adjacent Vertices:
-	//    2.1. For each vertex, print its number/index.
-	//    2.2. Initialize a temporary pointer to iterate through the adjacency list (starting from the head of the current vertex's adjacency list).
-	//    2.3. Use a loop to traverse the adjacency list of the current vertex:
-	//         - Print the vertex number of each node in the adjacency list until reaching the end (NULL).
-	//         - Move the temporary pointer to the next node in the list after printing.
+		AdjListNode *temp = graph->array[i].head;
 
-	// 3. Line Break:
-	//    3.1. Print a newline character after processing each vertex to separate the vertices in the output.
+		while (temp != NULL)
+		{
+			printf("%d -> ", temp->vertex);
+			temp = temp->next;
+		}
+
+		printf("NULL\n");
+	}
 }
 
 int main()
