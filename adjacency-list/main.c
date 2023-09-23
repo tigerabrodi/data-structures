@@ -35,27 +35,50 @@ void freeGraph(Graph *graph);		   // Already defined
 
 void removeEdge(Graph *graph, int src, int dest)
 {
-	// 1. Vertex Validation:
-	//    1.1. Check if 'src' and 'dest' are valid indices.
-	//         - Hint: They should be within 0 and graph->numVertices-1.
-	//    1.2. If either is out of bounds, return without proceeding.
+	// Vertex Validation:
+	//    Check if 'src' and 'dest' are valid indices.
+	//    If either is out of bounds, return without proceeding.
+	if (src < 0 || src >= graph->numVertices || dest < 0 || dest >= graph->numVertices)
+	{
+		return;
+	}
 
-	// 2. Start Traversal from Source:
-	//    2.1. Initialize a pointer 'temp' pointing to the head of the adjacency list of 'src'.
-	//    2.2. Declare another pointer 'prev' to keep track of the previous node, set it to NULL initially.
+	// Start Traversal from Source:
+	//    Initialize a pointer 'temp' pointing to the head of the adjacency list of 'src'.
+	//    Declare another pointer 'prev' to keep track of the previous node, set it to NULL initially.
+	AdjListNode *temp = graph->array[src].head;
+	AdjListNode *prev = NULL;
 
-	// 3. Search for Destination Node in Source's Adjacency List:
-	//    3.1. Traverse the list using a while-loop, checking each node's vertex value against 'dest'.
-	//    3.2. Update 'prev' to point to 'temp' and 'temp' to move to the next node in each iteration.
+	// Search for Destination Node in Source's Adjacency List:
+	//    Traverse the list using a while-loop, checking each node's vertex value against 'dest'.
+	//    Update 'prev' to point to 'temp' and 'temp' to move to the next node in each iteration.
+	while (temp != NULL && temp->vertex != dest)
+	{
+		prev = temp;
+		temp = temp->next;
+	}
 
-	// 4. Remove Destination Node:
-	//    4.1. If 'temp' points to NULL after the loop, 'dest' wasn't found. Return without changes.
-	//    4.2. If 'prev' is still NULL, it means 'dest' is the first node in the list. Adjust 'src's head accordingly.
-	//    4.3. If 'prev' is not NULL, adjust its 'next' pointer to skip the 'dest' node.
-	//    4.4. Free the memory allocated to the 'dest' node.
+	// Remove Destination Node:
+	//    If 'temp' points to NULL after the loop, 'dest' wasn't found. Return without changes.
+	if (temp == NULL)
+	{
+		return;
+	}
 
-	// 5. Completion:
-	//    5.1. Print a confirmation message indicating the edge has been removed.
+	//    If 'prev' is still NULL, it means 'dest' is the first node in the list.
+	if (prev == NULL)
+	{
+		graph->array[src].head = temp->next;
+	}
+	//    If 'prev' is not NULL, adjust its 'next' pointer to skip the 'dest' node.
+	else
+	{
+		prev->next = temp->next;
+	}
+
+	//   Free the memory allocated to the 'dest' node.
+	free(temp);
+	printf("Edge from %d to %d has been removed\n", src, dest);
 }
 
 bool isEdge(Graph *graph, int src, int dest)
