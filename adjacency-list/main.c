@@ -22,16 +22,97 @@ typedef struct
 	AdjList *array;
 } Graph;
 
-AdjListNode *createAdjListNode(int vertex);    // Already defined
-Graph *createGraph(int numVertices);	       // Already defined
-void addEdge(Graph *graph, int src, int dest); // Already defined
-void removeEdge(Graph *graph, int src, int dest);
-bool isEdge(Graph *graph, int src, int dest);
+AdjListNode *createAdjListNode(int vertex);	  // Already defined
+Graph *createGraph(int numVertices);		  // Already defined
+void addEdge(Graph *graph, int src, int dest);	  // Already defined
+void removeEdge(Graph *graph, int src, int dest); // Already defined
+bool isEdge(Graph *graph, int src, int dest);	  // Already defined
 void DFS(Graph *graph, int startVertex);
 void BFS(Graph *graph, int startVertex);
-void printGraph(Graph *graph); // Already defined
-void deleteNode(Graph *graph, int vertex);
-void freeGraph(Graph *graph);
+void printGraph(Graph *graph);		   // Already defined
+void deleteNode(Graph *graph, int vertex); // Already defined
+void freeGraph(Graph *graph);		   // Already defined
+
+void removeEdge(Graph *graph, int src, int dest)
+{
+	// 1. Vertex Validation:
+	//    1.1. Check if 'src' and 'dest' are valid indices.
+	//         - Hint: They should be within 0 and graph->numVertices-1.
+	//    1.2. If either is out of bounds, return without proceeding.
+
+	// 2. Start Traversal from Source:
+	//    2.1. Initialize a pointer 'temp' pointing to the head of the adjacency list of 'src'.
+	//    2.2. Declare another pointer 'prev' to keep track of the previous node, set it to NULL initially.
+
+	// 3. Search for Destination Node in Source's Adjacency List:
+	//    3.1. Traverse the list using a while-loop, checking each node's vertex value against 'dest'.
+	//    3.2. Update 'prev' to point to 'temp' and 'temp' to move to the next node in each iteration.
+
+	// 4. Remove Destination Node:
+	//    4.1. If 'temp' points to NULL after the loop, 'dest' wasn't found. Return without changes.
+	//    4.2. If 'prev' is still NULL, it means 'dest' is the first node in the list. Adjust 'src's head accordingly.
+	//    4.3. If 'prev' is not NULL, adjust its 'next' pointer to skip the 'dest' node.
+	//    4.4. Free the memory allocated to the 'dest' node.
+
+	// 5. Completion:
+	//    5.1. Print a confirmation message indicating the edge has been removed.
+}
+
+bool isEdge(Graph *graph, int src, int dest)
+{
+	// 1. Vertex Validation:
+	//    1.1. Ensure 'src' and 'dest' are valid vertex indices.
+	//    1.2. If either is invalid, return false without further checks.
+
+	// 2. Traverse Source's List:
+	//    2.1. Set up a temporary pointer, say 'temp', to start from the head of the adjacency list of 'src'.
+
+	// 3. Search for Destination Node:
+	//    3.1. Using a while-loop, traverse through the adjacency list.
+	//    3.2. In each iteration, compare 'temp->vertex' with 'dest'.
+	//    3.3. If a match is found, exit the loop early.
+
+	// 4. Result:
+	//    4.1. After traversal, if 'temp' isn't NULL, return true (edge exists).
+	//    4.2. Otherwise, return false.
+}
+
+void deleteNode(Graph *graph, int vertex)
+{
+	// 1. Vertex Validation:
+	//    1.1. Ensure 'vertex' is a valid index.
+	//    1.2. If it's not, return without changes.
+
+	// 2. Remove Incoming Edges to the Vertex:
+	//    2.1. Iterate through each vertex's adjacency list in the graph.
+	//    2.2. For each vertex, use the 'removeEdge' function to eliminate any edge leading to the target 'vertex'.
+
+	// 3. Clear Outgoing Edges from the Vertex:
+	//    3.1. Traverse the adjacency list of 'vertex' and free all its nodes.
+	//    3.2. Reset the head of 'vertex's adjacency list to NULL.
+
+	// 4. Adjust the Graph's Vertex Array:
+	//    4.1. Starting from the 'vertex' index, move all subsequent adjacency lists one position back.
+	//    4.2. Decrease graph's 'numVertices' count by 1.
+	//    4.3. Use realloc() to adjust the size of the graph's array to the new vertex count.
+}
+
+void freeGraph(Graph *graph)
+{
+	// 1. Check Graph's Existence:
+	//    1.1. If 'graph' is NULL, return without doing anything.
+
+	// 2. Deallocate Each Vertex's Adjacency List:
+	//    2.1. For each vertex in the graph:
+	//    2.2. Traverse its adjacency list and free every node.
+	//    2.3. Once all nodes are freed, reset the head of the adjacency list to NULL.
+
+	// 3. Deallocate Graph's Adjacency List Array:
+	//    3.1. Once all individual adjacency lists are freed, free the main array that held these lists.
+
+	// 4. Deallocate the Graph Structure:
+	//    4.1. Now that everything inside the graph is deallocated, free the graph structure itself.
+}
 
 // Function to create a new adjacency list node.
 AdjListNode *createAdjListNode(int vertex)
