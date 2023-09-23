@@ -109,21 +109,80 @@ bool isEdge(Graph *graph, int src, int dest)
 void deleteNode(Graph *graph, int vertex)
 {
 	// 1. Vertex Validation:
-	//    1.1. Ensure 'vertex' is a valid index.
-	//    1.2. If it's not, return without changes.
+	//    1.1. Begin by validating the 'vertex' index.
+	//    1.2. Check if the 'vertex' index is non-negative. We want to ensure it's not a negative number.
+	//    1.3. Further, ensure that the 'vertex' index is within the range of existing vertices in our graph.
+	//    1.4. If it's out of range or negative, our 'vertex' index is invalid.
+	//    1.5. Print an error message for clarity and exit the function without making any changes.
+	if (vertex < 0 || vertex >= graph->numVertices)
+	{
+		printf("Invalid vertex index\n");
+		return;
+	}
 
 	// 2. Remove Incoming Edges to the Vertex:
-	//    2.1. Iterate through each vertex's adjacency list in the graph.
-	//    2.2. For each vertex, use the 'removeEdge' function to eliminate any edge leading to the target 'vertex'.
+	//    2.1. Each vertex in the graph might have an edge pointing to our target 'vertex'.
+	//    2.2. Set up a loop to iterate over all vertices in the graph.
+	//    2.3. Within the loop, for each vertex:
+	//         2.3.1. Examine its adjacency list to determine if it has an edge leading to our target 'vertex'.
+	//         2.3.2. Use an appropriate mechanism, like the 'removeEdge' function, to remove such edges when found.
+	//         2.3.3. Continue checking until the entire list is traversed or the edge is found and removed.
+
+	for (int i = 0; i < graph->numVertices; i++)
+	{
+		removeEdge(graph, i, vertex);
+	}
 
 	// 3. Clear Outgoing Edges from the Vertex:
-	//    3.1. Traverse the adjacency list of 'vertex' and free all its nodes.
-	//    3.2. Reset the head of 'vertex's adjacency list to NULL.
+	//    3.1. Our target vertex might have edges pointing to other vertices.
+	//    3.2. Set a pointer, let's call it 'current', pointing at the start (head) of our target vertex's adjacency list.
+	//    3.3. Initiate a loop to traverse through the adjacency list pointed by 'current'.
+	//         3.3.1. In each iteration, store the next node in a temporary pointer.
+	//         3.3.2. Free the memory of the current node.
+	//         3.3.3. Move 'current' to the next node using our temporary pointer.
+	//    3.4. Once the loop ends, set the head of the adjacency list of 'vertex' to NULL, ensuring it's clean and indicates no edges.
+	AdjListNode *current = graph->array[vertex].head;
+
+	while (current != NULL)
+	{
+		AdjListNode *temp = current->next;
+		free(current);
+		current = temp;
+	}
+
+	graph->array[vertex].head = NULL;
 
 	// 4. Adjust the Graph's Vertex Array:
-	//    4.1. Starting from the 'vertex' index, move all subsequent adjacency lists one position back.
-	//    4.2. Decrease graph's 'numVertices' count by 1.
-	//    4.3. Use realloc() to adjust the size of the graph's array to the new vertex count.
+	//    4.1. With our target vertex deleted, there's a gap in our array of adjacency lists.
+	//    4.2. To close this gap:
+	//         4.2.1. Begin a loop from the deleted 'vertex' index, moving towards the end of the array.
+	//         4.2.2. In each iteration, copy the content of the next index to the current index.
+	//                This shift operation effectively removes the gap.
+
+	for (int i = vertex; i < graph->numVertices - 1; i++)
+	{
+		graph->array[i] = graph->array[i + 1];
+	}
+
+	//    4.3. After the shifting is done, reduce the 'numVertices' field of the graph by 1.
+	graph->numVertices--;
+	//    4.4. As a final step, resize the graph's adjacency list array to its new size using realloc().
+	AdjList *tempArray = (AdjList *)realloc(graph->array, graph->numVertices * sizeof(AdjList));
+
+	if (tempArray != NULL)
+	{
+		graph->array = tempArray;
+	}
+	else
+	{
+		printf("Memory allocation failed");
+		return;
+	}
+
+	// 5. Cleaning Up:
+	//    5.1. Always ensure no memory leaks occur.
+	//    5.2. All nodes of the deleted vertex's adjacency list and any other associated memory should have been released.
+	printf("Vertex %d has been deleted\n", vertex);
 }
 
 void freeGraph(Graph *graph)
@@ -140,11 +199,29 @@ void freeGraph(Graph *graph)
 	//    2.2. Traverse its adjacency list and free every node.
 	//    2.3. Once all nodes are freed, reset the head of the adjacency list to NULL.
 
+	for (int i = 0; i < graph->numVertices; i++)
+	{
+		AdjListNode *current = graph->array[i].head;
+
+		while (current != NULL)
+		{
+			AdjListNode *temp = current->next;
+			free(current);
+			current = temp;
+		}
+
+		graph->array[i].head = NULL;
+	}
+
 	// 3. Deallocate Graph's Adjacency List Array:
 	//    3.1. Once all individual adjacency lists are freed, free the main array that held these lists.
 
+	free(graph->array);
+
 	// 4. Deallocate the Graph Structure:
 	//    4.1. Now that everything inside the graph is deallocated, free the graph structure itself.
+
+	free(graph);
 }
 
 // Function to create a new adjacency list node.
