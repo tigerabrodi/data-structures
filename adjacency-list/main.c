@@ -52,35 +52,56 @@ AdjListNode *createAdjListNode(int vertex)
 // Function to create a graph.
 Graph *createGraph(int numVertices)
 {
-	// 1. Memory Allocation:
-	//    1.1. Use malloc to allocate memory for a new Graph structure.
-	//    1.2. Check if memory allocation was successful. If not, handle the error (e.g., print an error message and return NULL).
+	Graph *new_graph = (Graph *)malloc(sizeof(Graph));
+	if (new_graph == NULL)
+	{
+		printf("Memory allocation failed");
+		return NULL;
+	}
 
-	// 2. Graph Initialization:
-	//    2.1. Assign the 'numVertices' parameter value to the 'numVertices' field of the new graph.
-	//    2.2. Use malloc to allocate an array of AdjList structures of size 'numVertices' for the 'array' field of the graph.
-	//    2.3. Check if memory allocation for the array was successful. If not, handle the error.
+	new_graph->numVertices = numVertices;
+	new_graph->array = (AdjList *)malloc(numVertices * sizeof(AdjList));
 
-	// 3. Adjacency Lists Initialization:
-	//    3.1. Use a loop to iterate through each adjacency list in the array.
-	//    3.2. For each adjacency list, initialize its 'head' to NULL.
+	for (int i = 0; i < numVertices; i++)
+	{
+		new_graph->array[i].head = NULL;
+	}
 
-	// 4. Return:
-	//    4.1. Return the newly created Graph structure.
+	return new_graph;
 }
 
 // Function to add an edge to the graph.
 void addEdge(Graph *graph, int src, int dest)
 {
-	// 1. Source to Destination:
-	//    1.1. Create a new adjacency list node for the destination vertex using 'createAdjListNode'.
-	//    1.2. Set the 'next' field of this new node to point to the current head of the source vertex's adjacency list.
-	//    1.3. Update the head of the source vertex's adjacency list to the new node (essentially adding the node at the beginning of the list).
+	// 1. Adding Edge from Source to Destination:
 
-	// 2. If Undirected Graph (Destination to Source):
+	//    1.1. Create a new adjacency list node for the destination vertex.
+	//         - Use the 'createAdjListNode' function.
+	//         - Store the result in a variable, say 'newDestNode'.
+	AdjListNode *newDestNode = createAdjListNode(dest);
+
+	//    1.2. Linking the New Node to Source's Adjacency List:
+	//         1.2.1. Point the 'next' pointer of 'newDestNode' to the current head of the source vertex's adjacency list.
+	//                - Access the head of the source vertex's adjacency list from the graph's array.
+	//         1.2.2. Update the head of the source vertex's adjacency list to point to 'newDestNode'.
+	newDestNode->next = graph->array[src].head;
+	graph->array[src].head = newDestNode;
+
+	// 2. If the Graph is Undirected (Adding edge from Destination to Source):
+
 	//    2.1. Create a new adjacency list node for the source vertex.
-	//    2.2. Set the 'next' field of this new node to point to the current head of the destination vertex's adjacency list.
-	//    2.3. Update the head of the destination vertex's adjacency list to the new node.
+	//         - Use the 'createAdjListNode' function again.
+	//         - Store the result in another variable, say 'newSrcNode'.
+
+	AdjListNode *newSrcNode = createAdjListNode(src);
+
+	//    2.2. Linking the New Node to Destination's Adjacency List:
+	//         2.2.1. Point the 'next' pointer of 'newSrcNode' to the current head of the destination vertex's adjacency list.
+	//                - Access the head of the destination vertex's adjacency list from the graph's array.
+	//         2.2.2. Update the head of the destination vertex's adjacency list to point to 'newSrcNode'.
+
+	newSrcNode->next = graph->array[dest].head;
+	graph->array[dest].head = newSrcNode;
 }
 
 // Function to print the graph.
