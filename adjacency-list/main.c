@@ -27,11 +27,84 @@ Graph *createGraph(int numVertices);		  // Already defined
 void addEdge(Graph *graph, int src, int dest);	  // Already defined
 void removeEdge(Graph *graph, int src, int dest); // Already defined
 bool isEdge(Graph *graph, int src, int dest);	  // Already defined
-void DFS(Graph *graph, int startVertex);
+void DFS(Graph *graph, int currentVertex, bool visited[]);
 void BFS(Graph *graph, int startVertex);
 void printGraph(Graph *graph);		   // Already defined
 void deleteNode(Graph *graph, int vertex); // Already defined
 void freeGraph(Graph *graph);		   // Already defined
+
+void DFS(Graph *graph, int currentVertex, bool visited[])
+{
+	// Step 1: Mark the Current Vertex as Visited
+
+	// 1.1. Set `visited[currentVertex]` to true:
+	// - This is to ensure that we don't process this vertex again and avoid infinite loops or redundant processing.
+	visited[currentVertex] = true;
+
+	// Step 2: Start Traversal to Explore Neighbors
+
+	// 2.1. Begin with the first neighbor:
+	// - Create a pointer named `temp`.
+	// - Point `temp` to the beginning of the adjacency list of `currentVertex` (i.e., `graph->array[currentVertex].head`).
+	AdjListNode *temp = graph->array[currentVertex].head;
+
+	// 2.2. Loop to process all neighbors:
+	// - Begin a while loop that continues as long as `temp` is not NULL. This is to ensure we traverse the entire adjacency list.
+	while (temp != NULL)
+	{
+		//      2.2.1. Inside the loop, for each neighbor:
+		//      - Check the `visited` status of the neighboring vertex (i.e., `temp->vertex`).
+		//      - If it's not visited (i.e., `visited[temp->vertex]` is `false`):
+		if (visited[temp->vertex] == false)
+		{
+			DFS(graph, temp->vertex, visited);
+		}
+
+		//          2.2.1.1. Recursive Dive into the Neighbor:
+		//          - Call the DFS function recursively to start processing the unvisited neighboring vertex.
+		//          - Pass in the `graph`, the current neighboring vertex (`temp->vertex`), and the `visited` array to this recursive call.
+
+		//      2.2.2. Move to the next neighbor in the adjacency list:
+		//      - Update the `temp` pointer to move it to the next node in the adjacency list (i.e., `temp = temp->next`).
+		temp = temp->next;
+	}
+
+	// Step 3: Function Completion
+
+	// 3.1. Once all neighbors are processed:
+	// - The loop will end, the function will finish its current call, and it will return to its previous state (backtracking).
+}
+
+void StartDFS(Graph *graph, int startVertex)
+{
+	// Step 1: Set Up a Visited Tracker
+
+	// 1.1. Create a `visited` array:
+	// - Allocate a boolean array called `visited` with a size equal to the number of vertices in the graph (i.e., `graph->numVertices`).
+	bool visited[graph->numVertices];
+
+	// 1.2. Initialize all values to false:
+	// - Iterate over this array using a loop.
+	// - Set each entry in the `visited` array to `false`. This represents that no vertex has been visited yet.
+
+	for (int i = 0; i < graph->numVertices; i++)
+	{
+		visited[i] = false;
+	}
+
+	// Step 2: Begin the DFS Process
+
+	// 2.1. Call the recursive DFS function:
+	// - Start the depth-first search by calling the DFS function.
+	// - Pass in the `graph`, the provided `startVertex`, and the `visited` array as arguments.
+	DFS(graph, startVertex, visited);
+
+	// Step 3: Clean-up After Completion (if necessary)
+
+	// 3.1. Once DFS completes:
+	// - There's no additional cleanup required for stack-allocated memory.
+	// - If you used any dynamically allocated memory (using malloc, calloc, etc.), ensure you free that memory to prevent leaks.
+}
 
 void BFS(Graph *graph, int startVertex)
 {
