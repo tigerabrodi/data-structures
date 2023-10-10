@@ -95,14 +95,12 @@ void printGraph(Graph *graph)
 void freeGraph(Graph *graph)
 {
 	// Free all allocated memory associated with the graph.
+	for (int i = 0; i < graph->numVertices; i++)
+	{
+		free(graph->matrix[i]);
+	}
 
-	// Begin by freeing the adjacency matrix:
-	// - Loop through the rows of the matrix (from 0 to graph->numVertices-1).
-	//   - For each row:
-	//     - Free the memory associated with that row.
-
-	// Once the matrix is freed:
-	// - Free the graph structure itself.
+	free(graph);
 }
 
 int main()
