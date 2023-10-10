@@ -62,11 +62,8 @@ void addEdge(Graph *graph, int vertex1, int vertex2)
 void removeEdge(Graph *graph, int vertex1, int vertex2)
 {
 	// Remove the connection (edge) between vertex1 and vertex2.
-	// - Access the adjacency matrix inside the graph.
-	// - Set the value at matrix position [vertex1][vertex2] to 0.
-
-	// Since the graph is undirected:
-	// - Also set the value at matrix position [vertex2][vertex1] to 0.
+	graph->matrix[vertex1][vertex2] = 0;
+	graph->matrix[vertex2][vertex1] = 0;
 }
 
 bool isEdge(Graph *graph, int vertex1, int vertex2)
