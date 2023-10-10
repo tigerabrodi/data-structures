@@ -55,11 +55,8 @@ Graph *createGraph(int numVertices)
 void addEdge(Graph *graph, int vertex1, int vertex2)
 {
 	// Establish a connection (edge) between vertex1 and vertex2.
-	// - Access the adjacency matrix inside the graph.
-	// - Set the value at matrix position [vertex1][vertex2] to 1.
-
-	// Because this is an undirected graph:
-	// - Also set the value at position [vertex2][vertex1] to 1.
+	graph->matrix[vertex1][vertex2] = 1;
+	graph->matrix[vertex2][vertex1] = 1;
 }
 
 void removeEdge(Graph *graph, int vertex1, int vertex2)
