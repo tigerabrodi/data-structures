@@ -20,21 +20,36 @@ void freeGraph(Graph *graph);				 // Cleans up memory used by the graph
 Graph *createGraph(int numVertices)
 {
 	// Allocate space for the graph's structure
-	// - Use 'malloc' to dynamically allocate memory for the graph.
-	// - Handle any memory allocation failure (if 'malloc' returns NULL).
+	Graph *graph = malloc(sizeof(Graph));
+
+	if (graph == NULL)
+	{
+		printf("Memory allocation failed.\n");
+		exit(1);
+	}
 
 	// Set the number of vertices in the graph structure.
-	// - Assign the 'numVertices' parameter to the 'numVertices' attribute of the graph.
+	graph->numVertices = numVertices;
 
 	// Allocate memory for the adjacency matrix.
-	// - Use a loop to create rows (i.e., pointers to int arrays).
-	//   Loop from 0 to numVertices-1.
-	//   - For each iteration:
-	//     - Allocate an array of integers for that row.
-	//     - Ensure memory allocation succeeded.
-	//     - Initialize all integers in this new array to 0 using a nested loop or memset.
+	for (int i = 0; i < numVertices; i++)
+	{
+		graph->matrix[i] = malloc(sizeof(int) * numVertices);
+
+		if (graph->matrix[i] == NULL)
+		{
+			printf("Memory allocation failed.\n");
+			exit(1);
+		}
+
+		for (int j = 0; j < numVertices; j++)
+		{
+			graph->matrix[i][j] = 0;
+		}
+	}
 
 	// Return the newly created graph pointer.
+	return graph;
 }
 
 void addEdge(Graph *graph, int vertex1, int vertex2)
