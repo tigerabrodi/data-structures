@@ -42,50 +42,87 @@ void BFS(Graph *graph, int startVertex)
 	// - The size of this array should equal `graph->numVertices`.
 	// - Declare integer variables: `front` and `rear` for queue operations.
 	// - Start with `front = -1` and `rear = -1` to indicate an empty queue.
+	int queue[graph->numVertices];
+	int front = -1;
+	int rear = -1;
 
 	// 1.2. Track Visited Vertices:
 	// - Declare a boolean array named `visited` to track which vertices have been visited.
 	// - Loop through and set all entries of `visited` to `false` since no vertex is visited at the start.
+	bool visited[graph->numVertices];
+	for (int i = 0; i < graph->numVertices; i++)
+	{
+		visited[i] = false;
+	}
 
 	// Step 2: Begin with the Start Vertex
 
 	// 2.1. Mark the starting vertex:
 	// - Set `visited[startVertex]` to `true` to mark the starting vertex as visited.
+	visited[startVertex] = true;
 
 	// 2.2. Add the starting vertex to the queue:
 	// - Increment the `rear`.
+	rear++;
 	// - Add `startVertex` to the queue by setting `queue[rear] = startVertex`.
+	queue[rear] = startVertex;
 	// - Since this is the first element, make `front` point to `0`.
+	front = 0;
 
 	// Step 3: BFS Loop
 
 	// 3.1. Process while Queue is not Empty:
 	// - Create a loop that continues as long as `front` doesn't equal `-1` (means queue isn't empty).
+	while (front != -1)
+	{
+		//      3.1.1. Dequeue from the front:
+		//      - Fetch the front vertex of the queue into a variable named `currentVertex`.
+		//      - Shift the `front` to the next element.
+		//      - If after shifting, `front` exceeds `rear`, reset the queue by setting both `front` and `rear` to `-1`.
+		int currentVertex = queue[front];
+		front++;
+		if (front > rear)
+		{
+			front = -1;
+			rear = -1;
+		}
 
-	//      3.1.1. Dequeue from the front:
-	//      - Fetch the front vertex of the queue into a variable named `currentVertex`.
-	//      - Shift the `front` to the next element.
-	//      - If after shifting, `front` exceeds `rear`, reset the queue by setting both `front` and `rear` to `-1`.
+		//      3.1.2. Look at Neighbors:
+		//      - Set a pointer `temp` to the beginning of the adjacency list of `currentVertex`.
 
-	//      3.1.2. Look at Neighbors:
-	//      - Set a pointer `temp` to the beginning of the adjacency list of `currentVertex`.
+		AdjListNode *temp = graph->array[currentVertex].head;
 
-	//          3.1.2.1. Process all Neighbors:
-	//          - Traverse the adjacency list. Continue the loop as long as `temp` isn't NULL.
+		//          3.1.2.1. Process all Neighbors:
+		//          - Traverse the adjacency list. Continue the loop as long as `temp` isn't NULL.
+		while (temp != NULL)
+		{
+			//              3.1.2.1.1. If the neighbor hasn't been visited:
+			//              - Check if `visited[temp->vertex]` is `false`.
+			if (visited[temp->vertex] == false)
+			{
+				visited[temp->vertex] = true;
+				rear++;
+				queue[rear] = temp->vertex;
+				if (front == -1)
+				{
+					front = 0;
+				}
+			}
 
-	//              3.1.2.1.1. If the neighbor hasn't been visited:
-	//              - Check if `visited[temp->vertex]` is `false`.
+			temp = temp->next;
 
-	//                  3.1.2.1.1.1. Mark the neighbor as visited:
-	//                  - Update `visited[temp->vertex]` to `true`.
+			//                  3.1.2.1.1.1. Mark the neighbor as visited:
+			//                  - Update `visited[temp->vertex]` to `true`.
 
-	//                  3.1.2.1.1.2. Enqueue the neighbor:
-	//                  - Move `rear` to the next position.
-	//                  - Place `temp->vertex` in the queue.
-	//                  - If `front` is `-1` (queue was empty), set `front` to `0`.
+			//                  3.1.2.1.1.2. Enqueue the neighbor:
+			//                  - Move `rear` to the next position.
+			//                  - Place `temp->vertex` in the queue.
+			//                  - If `front` is `-1` (queue was empty), set `front` to `0`.
+		}
 
-	//              3.1.2.1.2. Move to the next neighbor:
-	//              - Update `temp` to the next node in the adjacency list (`temp = temp->next`).
+		//              3.1.2.1.2. Move to the next neighbor:
+		//              - Update `temp` to the next node in the adjacency list (`temp = temp->next`).
+	}
 
 	// Step 4: BFS Completion
 	// - At this point, BFS has processed all vertices reachable from `startVertex`.
