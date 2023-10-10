@@ -82,12 +82,14 @@ bool isEdge(Graph *graph, int vertex1, int vertex2)
 void printGraph(Graph *graph)
 {
 	// Print the adjacency matrix row by row.
-	// - Loop through the rows from 0 to graph->numVertices-1.
-	//   - For each row:
-	//     - Use another loop to iterate through the columns from 0 to graph->numVertices-1.
-	//       - Print the matrix value at the current row and column.
-	//       - Add a space after each value for formatting.
-	//     - After finishing a row (when the inner loop completes), print a newline.
+	for (int i = 0; i < graph->numVertices; i++)
+	{
+		for (int j = 0; j < graph->numVertices; j++)
+		{
+			printf("%d ", graph->matrix[i][j]);
+		}
+		printf("\n");
+	}
 }
 
 void freeGraph(Graph *graph)
