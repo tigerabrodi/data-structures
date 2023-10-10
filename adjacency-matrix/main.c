@@ -69,11 +69,14 @@ void removeEdge(Graph *graph, int vertex1, int vertex2)
 bool isEdge(Graph *graph, int vertex1, int vertex2)
 {
 	// Check if an edge exists between vertex1 and vertex2.
-	// - Access the adjacency matrix at the position [vertex1][vertex2].
-	// - If the value at this position is 1:
-	//   - An edge exists: return 'true'.
-	// - Otherwise:
-	//   - No edge exists: return 'false'.
+	if (graph->matrix[vertex1][vertex2] == 1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void printGraph(Graph *graph)
