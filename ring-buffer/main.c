@@ -71,22 +71,24 @@ bool write_ringbuffer(RingBuffer *rb, int data)
 bool read_ringbuffer(RingBuffer *rb, int *data)
 {
 	// 1. Check if the buffer is empty.
-	//    - If `rb->size` is 0, buffer is empty.
-
 	// 2. If the buffer is empty, return false.
-	//    - Indicating no data is available for reading.
+	if (rb->size == 0)
+	{
+		return false;
+	}
 
 	// 3. Read data from the buffer.
-	//    - Assign value at `rb->buffer[rb->read_pointer]` to the memory location `data` is pointing to.
+	*data = rb->buffer[rb->read_pointer];
 
 	// 4. Update the read_pointer.
-	//    - Increment `rb->read_pointer` by 1.
-	//    - Use the modulo operation with `rb->capacity` to ensure wrapping around.
+	//    - Use the modulo operation with `rb->capacity` to ensure circuling back to the beginning.
+	rb->read_pointer = (rb->read_pointer + 1) % rb->capacity;
 
 	// 5. Decrement the size.
-	//    - Decrease `rb->size` by 1.
+	rb->size--;
 
 	// 6. Return true, indicating data was read successfully.
+	return true;
 }
 
 void free_ringbuffer(RingBuffer *rb)
