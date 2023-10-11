@@ -94,10 +94,10 @@ bool read_ringbuffer(RingBuffer *rb, int *data)
 void free_ringbuffer(RingBuffer *rb)
 {
 	// 1. Free the buffer's memory.
-	//    - Use `free` function to deallocate `rb->buffer`.
+	free(rb->buffer);
 
 	// 2. Free the memory occupied by the RingBuffer structure.
-	//    - Use `free` function to deallocate `rb`.
+	free(rb);
 }
 
 int main()
