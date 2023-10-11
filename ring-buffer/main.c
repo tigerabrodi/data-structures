@@ -14,26 +14,35 @@ typedef struct
 RingBuffer *init_ringbuffer(int capacity)
 {
 	// 1. Allocate space for the RingBuffer structure.
-	//    - Use `malloc` to allocate memory of size `sizeof(RingBuffer)`.
-	//    - Store the returned pointer in a variable, say `rb`.
+	RingBuffer *rb = malloc(sizeof(RingBuffer));
 
 	// 2. Check if the memory allocation succeeded.
-	//    - If `rb` is NULL, then memory allocation failed.
+	if (rb == NULL)
+	{
+		printf("Memory allocation failed.\n");
+		exit(1);
+	}
 
 	// 3. Assign the 'capacity' to the RingBuffer's field.
-	//    - `rb->capacity` should get the value of the 'capacity' parameter.
+	rb->capacity = capacity;
 
 	// 4. Allocate memory for the data buffer.
-	//    - Use `malloc` to allocate memory of size `capacity * sizeof(int)`.
-	//    - Assign the returned pointer to `rb->buffer`.
+	rb->buffer = malloc(capacity * sizeof(int));
 
 	// 5. Check if the memory allocation for buffer succeeded.
+	if (rb->buffer == NULL)
+	{
+		printf("Memory allocation failed.\n");
+		exit(1);
+	}
 
 	// 6. Initialize buffer's metadata.
-	//    - Set `rb->size` to 0.
-	//    - Set both `rb->read_pointer` and `rb->write_pointer` to 0.
+	rb->size = 0;
+	rb->read_pointer = 0;
+	rb->write_pointer = 0;
 
 	// 7. Return the `rb` pointer.
+	return rb;
 }
 
 bool write_ringbuffer(RingBuffer *rb, int data)
