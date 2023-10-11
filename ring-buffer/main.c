@@ -48,22 +48,24 @@ RingBuffer *init_ringbuffer(int capacity)
 bool write_ringbuffer(RingBuffer *rb, int data)
 {
 	// 1. Check if the buffer is full.
-	//    - If `rb->size` equals `rb->capacity`, the buffer is full.
-
 	// 2. If the buffer is full, return false.
-	//    - Indicating the data cannot be written to the buffer.
+	if (rb->size == rb->capacity)
+	{
+		return false;
+	}
 
 	// 3. Write the data.
-	//    - Assign `data` to `rb->buffer` at the index `rb->write_pointer`.
+	rb->buffer[rb->write_pointer] = data;
 
 	// 4. Update the write_pointer.
-	//    - Increment `rb->write_pointer` by 1.
 	//    - Use the modulo operation with `rb->capacity` to ensure wrapping around.
+	rb->write_pointer = (rb->write_pointer + 1) % rb->capacity;
 
 	// 5. Increment the size.
-	//    - Increase `rb->size` by 1.
+	rb->size++;
 
 	// 6. Return true, indicating data was added successfully.
+	return true;
 }
 
 bool read_ringbuffer(RingBuffer *rb, int *data)
