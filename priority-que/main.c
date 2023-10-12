@@ -18,12 +18,32 @@ typedef struct
 PriorityQueue *init_priority_queue(int capacity)
 {
 	// 1. Use malloc to allocate memory for a new PriorityQueue structure.
+	PriorityQueue *PQ = malloc(sizeof(PriorityQueue));
+
 	// 2. Check if the malloc call succeeded. If not, handle the error (e.g., return NULL).
+	if (!PQ)
+	{
+		return NULL;
+	}
+
 	// 3. Set the 'capacity' field of the newly created PriorityQueue structure to the provided capacity.
+	PQ->capacity = capacity;
+
 	// 4. Set the 'size' field to 0.
+	PQ->size = 0;
+
 	// 5. Use malloc to allocate memory for an array of Nodes of size 'capacity' to act as the heap storage.
+	PQ->nodes = malloc(capacity * sizeof(Node));
+
 	// 6. Check if the malloc call for the nodes succeeded. If not, handle the error (e.g., free previously allocated memory and return NULL).
+	if (!PQ->nodes)
+	{
+		free(PQ);
+		return NULL;
+	}
+
 	// 7. Return the pointer to the initialized PriorityQueue structure.
+	return PQ;
 }
 
 int parent(int index)
