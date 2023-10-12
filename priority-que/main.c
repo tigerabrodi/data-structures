@@ -49,7 +49,9 @@ PriorityQueue *init_priority_queue(int capacity)
 int parent(int index)
 {
 	// 1. Calculate the index of the parent node using the formula.
+	int parent_index = (index - 1) / 2;
 	// 2. Return the calculated index.
+	return parent_index;
 }
 
 int leftChild(int index)
