@@ -125,9 +125,11 @@ bool delete_from_priority_queue(PriorityQueue *PQ, int *value)
 
 Node *peek(PriorityQueue *PQ)
 {
-	// 1. Check if 'size' of PriorityQueue is 0.
-	// 2. If empty, return NULL.
-	// 3. Return a pointer to the root node without removing it.
+	if (PQ->size == 0)
+	{
+		return NULL;
+	}
+	return &PQ->nodes[0];
 }
 
 bool is_empty(PriorityQueue *PQ)
