@@ -134,8 +134,11 @@ Node *peek(PriorityQueue *PQ)
 
 bool is_empty(PriorityQueue *PQ)
 {
-	// 1. Compare 'size' of the PriorityQueue to 0.
-	// 2. Return the result of the comparison.
+	if (PQ->size == 0)
+	{
+		return true;
+	}
+	return false;
 }
 
 void free_priority_queue(PriorityQueue *PQ)
