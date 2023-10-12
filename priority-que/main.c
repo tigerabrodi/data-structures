@@ -143,8 +143,8 @@ bool is_empty(PriorityQueue *PQ)
 
 void free_priority_queue(PriorityQueue *PQ)
 {
-	// 1. Use free to deallocate memory of the 'nodes' array inside the PriorityQueue.
-	// 2. Use free to deallocate memory of the PriorityQueue itself.
+	free(PQ->nodes);
+	free(PQ);
 }
 
 int main()
