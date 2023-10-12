@@ -65,7 +65,9 @@ int left_child(int index)
 int right_child(int index)
 {
 	// 1. Calculate the index of the right child using the formula.
+	int right_index = (2 * index) + 2;
 	// 2. Return the calculated index.
+	return right_index;
 }
 
 bool insert_into_priority_queue(PriorityQueue *PQ, int value, int priority)
