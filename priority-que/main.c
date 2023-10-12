@@ -54,13 +54,15 @@ int parent(int index)
 	return parent_index;
 }
 
-int leftChild(int index)
+int left_child(int index)
 {
 	// 1. Calculate the index of the left child using the formula.
+	int left_index = (2 * index) + 1;
 	// 2. Return the calculated index.
+	return left_index;
 }
 
-int rightChild(int index)
+int right_child(int index)
 {
 	// 1. Calculate the index of the right child using the formula.
 	// 2. Return the calculated index.
