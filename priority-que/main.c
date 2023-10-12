@@ -107,20 +107,56 @@ bool insert_into_priority_queue(PriorityQueue *PQ, int value, int priority)
 
 bool delete_from_priority_queue(PriorityQueue *PQ, int *value)
 {
-	// 1. Check if 'size' of PriorityQueue is 0 (empty).
-	// 2. If empty, return false.
-	// 3. Set the output parameter '*value' to the value of the root node.
-	// 4. Replace the root node with the node at the last index in 'nodes' array.
-	// 5. Decrease the 'size' of the PriorityQueue by 1.
-	// 6. Initialize a variable, say 'currentIndex', to 0.
-	// 7. Start a loop to 'bubble down' the root node:
-	//    a. Inside the loop, calculate the indices of the left and right children of 'currentIndex'.
-	//    b. Determine which child has a higher priority.
-	//    c. Compare the priority of the higher priority child with the node at 'currentIndex'.
-	//    d. If the child's priority is greater, swap the child node with the current node.
-	//    e. Update 'currentIndex' to the index of the swapped child.
-	//    f. If no swap was made or 'currentIndex' is a leaf node, break out of the loop.
-	// 8. Return true to indicate successful deletion.
+	// 1. Check for Emptiness
+	// 2. Handle Empty Case
+	if (PQ->size == 0)
+	{
+		return false;
+	}
+
+	// 3. Extract Root:
+	//   - Access the 'value' of the root node (index 0) of 'nodes' array.
+	//   - Assign this 'value' to the output parameter '*value'.
+	*value = PQ->nodes[0].value;
+
+	// 4. Replace Root with Last Node:
+	int last_index = PQ->size - 1;
+	PQ->nodes[0] = PQ->nodes[last_index];
+
+	// 5. Adjust Queue Size:
+	//   - Decrement the 'size' of the PriorityQueue by 1.
+	PQ->size--;
+
+	// 6. Initialize Bubble Down:
+	//   - Set a variable (e.g., 'currentIndex') to 0.
+	int current_index = 0;
+
+	// 7. Bubble Down Procedure:
+	while (true)
+	{
+		int left_index = left_child(current_index);
+		int right_index = right_child(current_index);
+		int higher_priority_child_index = left_index;
+		if (PQ->nodes[left_index].priority < PQ->nodes[right_index].priority)
+		{
+			higher_priority_child_index = right_index;
+		}
+
+		if (PQ->nodes[current_index].priority < PQ->nodes[higher_priority_child_index].priority)
+		{
+			Node temp = PQ->nodes[current_index];
+			PQ->nodes[current_index] = PQ->nodes[higher_priority_child_index];
+			PQ->nodes[higher_priority_child_index] = temp;
+			current_index = higher_priority_child_index;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	// 8. Successful Deletion:
+	return true;
 }
 
 Node *peek(PriorityQueue *PQ)
