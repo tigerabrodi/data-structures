@@ -72,19 +72,37 @@ int right_child(int index)
 
 bool insert_into_priority_queue(PriorityQueue *PQ, int value, int priority)
 {
-	// 1. Check if the current 'size' of the PriorityQueue is equal to its 'capacity'.
-	// 2. If the queue is full, return false to indicate insertion failure.
-	// 3. Create a new Node at the 'size' index of the 'nodes' array.
-	// 4. Set the 'value' and 'priority' fields of the new Node.
-	// 5. Initialize a variable, say 'currentIndex', to the current 'size' of the PriorityQueue.
-	// 6. Start a loop to 'bubble up' the newly added node:
-	//    a. Inside the loop, calculate the parent index of 'currentIndex'.
-	//    b. Compare the priority of the node at 'currentIndex' with the node at its parent index.
-	//    c. If the current node's priority is greater than its parent's priority, swap the two nodes.
-	//    d. Update 'currentIndex' to the parent index.
-	//    e. If no swap was made or 'currentIndex' is now 0, break out of the loop.
-	// 7. Increment the 'size' of the PriorityQueue.
-	// 8. Return true to indicate successful insertion.
+	// Step 1: Capacity Check
+	if (PQ->size == PQ->capacity)
+	{
+		return false;
+	}
+
+	// Step 2: Node Creation
+	PQ->nodes[PQ->size].value = value;
+	PQ->nodes[PQ->size].priority = priority;
+
+	// Step 3: Bubble Up
+	int current_index = PQ->size;
+	while (true)
+	{
+		int parent_index = parent(current_index);
+		if (PQ->nodes[current_index].priority > PQ->nodes[parent_index].priority)
+		{
+			Node temp = PQ->nodes[current_index];
+			PQ->nodes[current_index] = PQ->nodes[parent_index];
+			PQ->nodes[parent_index] = temp;
+			current_index = parent_index;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	// Step 4: Final Adjustments
+	PQ->size++;
+	return true;
 }
 
 bool delete_from_priority_queue(PriorityQueue *PQ, int *value)
