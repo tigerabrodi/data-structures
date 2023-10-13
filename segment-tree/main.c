@@ -42,20 +42,24 @@ void initialize_tree(SegmentTree *segment_tree, int original_arr[], int original
 
 int build_tree(SegmentTree *segment_tree, int arr[], int left, int right, int pos)
 {
-	// Step 1: Base case for leaf node.
-	// - Check if `left` is equal to `right`.
-	// - If true, set the tree node at position `pos` to arr[left] and return this value.
+	// Step 1: Base Case - Single element segment.
+	if (left == right)
+	{
+		segment_tree->tree[pos] = arr[left];
+		return arr[left];
+	}
 
-	// Step 2: Recursive case.
-	// - Calculate midpoint `mid` of segment.
-	// - Recursively build left subtree and store the returned value.
-	// - Recursively build right subtree and store the returned value.
+	// Step 2: Recursive Breakdown - Splitting the segment.
+	int mid = (left + right) / 2;
+	int left_sum = build_tree(segment_tree, arr, left, mid, 2 * pos + 1);
+	int right_sum = build_tree(segment_tree, arr, mid + 1, right, 2 * pos + 2);
 
-	// Step 3: Set current tree node value.
-	// - Combine values from left and right subtree.
-	// - Store this combined value at current tree node `pos`.
+	// Step 3: Aggregating Values - Combining the halves.
+	int sum = left_sum + right_sum;
+	segment_tree->tree[pos] = sum;
 
-	// Step 4: Return current tree node value.
+	// Step 4: Return the segment's sum.
+	return sum;
 }
 
 int query_sum(SegmentTree *segment_tree, int ql, int qr, int left, int right, int pos)
