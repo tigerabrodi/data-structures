@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Struct for the segment tree
 typedef struct
 {
 	int *tree;    // The array that will store the segment tree nodes
