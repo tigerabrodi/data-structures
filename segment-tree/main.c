@@ -100,20 +100,25 @@ void update_value(SegmentTree *segment_tree, int arr[], int n, int i, int new_va
 
 void update_tree(SegmentTree *segment_tree, int left, int right, int i, int diff, int pos)
 {
+	// Base Case: If the input index lies outside the range of this segment
 	if (i < left || i > right)
 	{
 		return;
 	}
 
+	// update position in segment tree by adding difference
 	segment_tree->tree[pos] += diff;
 
+	// mid index
 	int mid = (left + right) / 2;
 
+	// if left side, update left child
 	if (i <= mid)
 	{
 		update_tree(segment_tree, left, mid, i, diff, 2 * pos + 1);
 	}
 
+	// if right side, update right child
 	if (i > mid)
 	{
 		update_tree(segment_tree, mid + 1, right, i, diff, 2 * pos + 2);
