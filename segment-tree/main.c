@@ -86,6 +86,18 @@ int query_sum(SegmentTree *segment_tree, int query_start, int query_end, int lef
 	return total_sum;
 }
 
+void update_value(SegmentTree *segment_tree, int arr[], int n, int i, int new_val)
+{
+	// Step 1: Calculate Difference Between New and Original Values.
+	int diff = new_val - arr[i];
+
+	// Step 2: Update the Original Array.
+	arr[i] = new_val;
+
+	// Step 3: Update the Segment Tree.
+	update_tree(segment_tree, 0, n - 1, i, diff, 0);
+}
+
 int main()
 {
 	int arr[] = {1, 3, 5, 7, 9, 11};			      // Original array
