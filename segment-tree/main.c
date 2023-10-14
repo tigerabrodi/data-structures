@@ -62,50 +62,28 @@ int build_tree(SegmentTree *segment_tree, int arr[], int left, int right, int po
 	return sum;
 }
 
-int query_sum(SegmentTree *segment_tree, int ql, int qr, int left, int right, int pos)
+int query_sum(SegmentTree *segment_tree, int query_start, int query_end, int left, int right, int pos)
 {
-	// Step 1: Total overlap case.
-	// - Check if `ql` is less than or equal to `left` and `qr` is greater than or equal to `right`.
-	// - If true, return tree node value at position `pos`.
+	// Step 1: Total Overlap Case - The Query Range Completely Covers the Segment.
+	if (query_start <= left && query_end >= right)
+	{
+		return segment_tree->tree[pos];
+	}
 
-	// Step 2: No overlap case.
-	// - Check if `ql` is greater than `right` or `qr` is less than `left`.
-	// - If true, return 0 (since we're dealing with sums).
+	// Step 2: No Overlap Case - The Query Range and Segment Don't Intersect at All.
+	if (query_start > right || query_end < left)
+	{
+		return 0;
+	}
 
-	// Step 3: Partial overlap.
-	// - Compute the midpoint of segment.
-	// - Get sum from left child.
-	// - Get sum from right child.
+	// Step 3: Partial Overlap - The Query Range Partially Overlaps the Segment.
+	int mid = (left + right) / 2;
+	int left_sum = query_sum(segment_tree, query_start, query_end, left, mid, 2 * pos + 1);
+	int right_sum = query_sum(segment_tree, query_start, query_end, mid + 1, right, 2 * pos + 2);
 
-	// Step 4: Return combined sum.
-	// - Return sum of left child and right child.
-}
-
-void update_value(SegmentTree *segment_tree, int arr[], int n, int i, int new_val)
-{
-	// Step 1: Calculate difference.
-	// - Find difference between new value and original value.
-
-	// Step 2: Update array.
-	// - Set arr[i] to new value.
-
-	// Step 3: Propagate update to segment tree.
-	// - Call update_tree function.
-	// - Pass segment start, end, difference, and tree position.
-}
-
-void update_tree(SegmentTree *segment_tree, int left, int right, int i, int diff, int pos)
-{
-	// Step 1: Base case for out-of-bounds.
-	// - If i is less than `l` or greater than `right`, just return.
-
-	// Step 2: Update current tree node.
-	// - Increment tree node at position `pos` by `diff`.
-
-	// Step 3: If not a leaf node, propagate changes.
-	// - Calculate midpoint.
-	// - Update left child if `i` is less than or equal to midpoint.
-	// - Otherwise, update right child.
+	// Step 4: Combine and Return - Gather Results from Children and Combine.
+	int total_sum = left_sum + right_sum;
+	return total_sum;
 }
 
 int main()
