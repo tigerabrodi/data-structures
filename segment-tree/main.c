@@ -98,6 +98,28 @@ void update_value(SegmentTree *segment_tree, int arr[], int n, int i, int new_va
 	update_tree(segment_tree, 0, n - 1, i, diff, 0);
 }
 
+void update_tree(SegmentTree *segment_tree, int left, int right, int i, int diff, int pos)
+{
+	if (i < left || i > right)
+	{
+		return;
+	}
+
+	segment_tree->tree[pos] += diff;
+
+	int mid = (left + right) / 2;
+
+	if (i <= mid)
+	{
+		update_tree(segment_tree, left, mid, i, diff, 2 * pos + 1);
+	}
+
+	if (i > mid)
+	{
+		update_tree(segment_tree, mid + 1, right, i, diff, 2 * pos + 2);
+	}
+}
+
 int main()
 {
 	int arr[] = {1, 3, 5, 7, 9, 11};			      // Original array
