@@ -53,9 +53,9 @@ typedef struct AVLNode
 // Get the height of a given node.
 int getHeight(AVLNode *node)
 {
-	// 1. Check if node is NULL.
-	//    - If yes, return 0 as height is 0 for NULL nodes.
-	// 2. If node is not NULL, return the height attribute of the node.
+	if (!node)
+		return 0;
+	return node->height;
 }
 
 // Calculate the balance factor of a node.
