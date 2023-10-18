@@ -71,9 +71,9 @@ int getBalanceFactor(AVLNode *node)
 // Swap the values of two integers.
 void swap(int *a, int *b)
 {
-	// 1. Store the value of 'a' in a temporary variable.
-	// 2. Assign the value of 'b' to 'a'.
-	// 3. Assign the stored value in the temporary variable to 'b'.
+	int temp = *a;
+	*a = *b;
+	*b = temp;
 }
 
 // Create a new AVL tree node.
