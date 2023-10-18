@@ -80,10 +80,16 @@ void swap(int *a, int *b)
 AVLNode *createNewNode(int data)
 {
 	// 1. Dynamically allocate memory for a new AVLNode.
+	AVLNode *newNode = (AVLNode *)malloc(sizeof(AVLNode));
 	// 2. Set the node's data with the provided data.
+	newNode->data = data;
 	// 3. Initialize the left and right pointers to NULL.
+	newNode->left = NULL;
+	newNode->right = NULL;
 	// 4. Set the height of the node to 1 (considering itself).
+	newNode->height = 1;
 	// 5. Return the new node.
+	return newNode;
 }
 
 // Right rotation for AVL tree balancing.
