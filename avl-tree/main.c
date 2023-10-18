@@ -62,8 +62,10 @@ int getHeight(AVLNode *node)
 int getBalanceFactor(AVLNode *node)
 {
 	// 1. If node is NULL, return 0.
+	if (!node)
+		return 0;
 	// 2. Return the difference between the height of the left child and the height of the right child.
-	//    - Utilize getHeight() function to get these heights.
+	return getHeight(node->left) - getHeight(node->right);
 }
 
 // Swap the values of two integers.
