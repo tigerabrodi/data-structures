@@ -135,6 +135,28 @@ AVLNode *rightRotate(AVLNode *y)
 	return x;
 }
 
+// Left rotation for AVL tree balancing.
+AVLNode *leftRotate(AVLNode *x)
+{
+	// 1. Set 'y' as the right child of 'x' and 'T2' as the left child of 'y'.
+	AVLNode *y = x->right;
+	AVLNode *T2 = y->left;
+	// 2. Perform rotation similarly to rightRotate but in the opposite direction.
+	y->left = x;
+	x->right = T2;
+	// 3. Update heights.
+	int xLeftHeight = getHeight(x->left);
+	int xRightHeight = getHeight(x->right);
+	x->height = (xLeftHeight > xRightHeight ? xLeftHeight : xRightHeight) + 1;
+
+	int yLeftHeight = getHeight(y->left);
+	int yRightHeight = getHeight(y->right);
+	y->height = (yLeftHeight > yRightHeight ? yLeftHeight : yRightHeight) + 1;
+	// 4. Return 'y' as the new root.
+
+	return y;
+}
+
 // Print the AVL tree in in-order traversal.
 void inOrder(AVLNode *root)
 {
