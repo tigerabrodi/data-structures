@@ -95,31 +95,44 @@ AVLNode *createNewNode(int data)
 // Right rotation for AVL tree balancing.
 AVLNode *rightRotate(AVLNode *y)
 {
-	// 1. Set 'x' as the left child of 'y' and 'T3' as the right child of 'x'.
-	// 2. Perform rotation: Set the right child of 'x' as 'y' and left child of 'y' as 'T3'.
-	// 3. Update heights of 'y' and 'x'.
-	// 4. Return 'x' as the new root.
-}
+	// The main idea: We are moving 'x' up and 'y' down to the right of 'x'.
 
-// Left rotation for AVL tree balancing.
-AVLNode *leftRotate(AVLNode *x)
-{
-	// 1. Set 'y' as the right child of 'x' and 'T2' as the left child of 'y'.
-	// 2. Perform rotation similarly to rightRotate but in the opposite direction.
-	// 3. Update heights.
-	// 4. Return 'y' as the new root.
-}
+	// Step 1: Set 'x' as the left child of 'y'.
+	// - We need to access 'x' because 'x' will become our new root of the rotated subtree.
+	AVLNode *x = y->left;
 
-// Insert a new data value into the AVL tree.
-AVLNode *insert(AVLNode *node, int data)
-{
-	// 1. If the node is NULL, create a new node with the data and return it.
-	// 2. If the data is less than node's data, insert it into the left subtree.
-	// 3. If the data is greater, insert it into the right subtree.
-	// 4. Update the height of the node.
-	// 5. Calculate balance factor to check if the node became unbalanced after insertion.
-	// 6. Based on the balance factor and the value of data, decide the type of rotation needed.
-	// 7. Return the possibly updated node.
+	// Step 2: Store the subtree 'B'.
+	// - This is necessary because after the rotation, 'B' will move to be the left child of 'y'.
+	// - If we don't store it, we'll lose access to it.
+	AVLNode *T3 = x->right;
+
+	// Step 3: Perform the Rotation.
+
+	// Step 3.1: 'x' is the new root of this rotated subtree. So, the right child of 'x' should now point to 'y'.
+	// TODO: Assign 'y' to the right child pointer of 'x'.
+	x->right = y;
+
+	// Step 3.2: 'y' is now one level down from its original position and on the right side of 'x'.
+	// Its left child will now be the subtree 'B' (which we stored in 'T3').
+	y->left = T3;
+
+	// Step 4: Update heights.
+
+	// Step 4.1: First, update the height of 'y'.
+	// The height of any node = 1 + maximum of the heights of its left and right children.
+	int yLeftHeight = getHeight(y->left);
+	int yRightHeight = getHeight(y->right);
+	y->height = (yLeftHeight > yRightHeight ? yLeftHeight : yRightHeight) + 1;
+
+	// Step 4.2: Now, update the height of 'x'.
+	// We are updating 'x' after 'y' because 'y' is now a child of 'x', and its height may have changed.
+	int xLeftHeight = getHeight(x->left);
+	int xRightHeight = getHeight(x->right);
+
+	x->height = (xLeftHeight > xRightHeight ? xLeftHeight : xRightHeight) + 1;
+
+	// Step 5: Return the new root.
+	return x;
 }
 
 // Print the AVL tree in in-order traversal.
