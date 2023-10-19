@@ -157,10 +157,83 @@ AVLNode *leftRotate(AVLNode *x)
 	return y;
 }
 
+// Insert a new data value into the AVL tree.
+AVLNode *insert(AVLNode *node, int data)
+{
+	// 1. If the node is NULL, create a new node with the data and return it.
+
+	if (!node)
+		return createNewNode(data);
+
+	// 2. If the data is less than node's data, insert it into the left subtree.
+	if (data < node->data)
+	{
+		node->left = insert(node->left, data);
+	}
+
+	// 3. If the data is greater, insert it into the right subtree.
+	if (data > node->data)
+	{
+		node->right = insert(node->right, data);
+	}
+
+	node->height = 1 + (getHeight(node->left) > getHeight(node->right) ? getHeight(node->left) : getHeight(node->right));
+
+	// 4. Update the height of the node.
+	// 5. Calculate balance factor to check if the node became unbalanced after insertion.
+
+	// 6. Check the balance factor to see if node became unbalanced after insertion.
+	int balanceFactor = getBalanceFactor(node);
+
+	// Step 6.1: Left-Left (LL) Imbalance: Perform Right Rotation.
+	// This is when balance factor > 1 (indicating left-heavy) and data is inserted to the left subtree of the left child.
+	// TODO: Check if the balance factor of the current node is greater than 1 and data is less than node's left child data.
+	if (balanceFactor > 1 && data < node->left->data)
+	{
+		return rightRotate(node);
+	}
+
+	// Step 6.2: Right-Right (RR) Imbalance: Perform Left Rotation.
+	// This is when balance factor < -1 (indicating right-heavy) and data is inserted to the right subtree of the right child.
+	// TODO: Check if the balance factor of the current node is less than -1 and data is greater than node's right child data.
+	if (balanceFactor < -1 && data > node->right->data)
+	{
+		return leftRotate(node);
+	}
+
+	// Step 6.3: Left-Right (LR) Imbalance: Perform Left Rotation on Left Child, then Right Rotation.
+	// This is when balance factor > 1 (indicating left-heavy) and data is inserted to the right subtree of the left child.
+	// TODO: Check if the balance factor of the current node is greater than 1 and data is greater than node's left child data.
+	if (balanceFactor > 1 && data > node->left->data)
+	{
+		node->left = leftRotate(node->left);
+		return rightRotate(node);
+	}
+
+	// Step 6.4: Right-Left (RL) Imbalance: Perform Right Rotation on Right Child, then Left Rotation.
+	// This is when balance factor < -1 (indicating right-heavy) and data is inserted to the left subtree of the right child.
+	// TODO: Check if the balance factor of the current node is less than -1 and data is less than node's right child data.
+	if (balanceFactor < -1 && data < node->right->data)
+	{
+		node->right = rightRotate(node->right);
+		return leftRotate(node);
+	}
+
+	// 7. Return the possibly updated node.
+
+	// Step 7.1: After applying any necessary rotations, the `node` reference might have changed.
+	// It's important to ensure that we return the new root of this subtree, which may be the node itself, or
+	// it might have been updated due to rotations.
+	// TODO: Simply return the `node` which now holds the root of the current subtree after any rotations.
+
+	return node;
+}
+
 // Print the AVL tree in in-order traversal.
 void inOrder(AVLNode *root)
 {
 	// 1. If root is NULL, return immediately.
+
 	// 2. Recursively traverse the left subtree.
 	// 3. Print root's data.
 	// 4. Recursively traverse the right subtree.
