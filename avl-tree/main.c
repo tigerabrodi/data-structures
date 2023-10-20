@@ -233,10 +233,15 @@ AVLNode *insert(AVLNode *node, int data)
 void inOrder(AVLNode *root)
 {
 	// 1. If root is NULL, return immediately.
+	if (!root)
+		return;
 
 	// 2. Recursively traverse the left subtree.
+	inOrder(root->left);
 	// 3. Print root's data.
+	printf("%d ", root->data);
 	// 4. Recursively traverse the right subtree.
+	inOrder(root->right);
 }
 
 int main()
