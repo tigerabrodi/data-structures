@@ -109,7 +109,6 @@ AVLNode *rightRotate(AVLNode *y)
 	// Step 3: Perform the Rotation.
 
 	// Step 3.1: 'x' is the new root of this rotated subtree. So, the right child of 'x' should now point to 'y'.
-	// TODO: Assign 'y' to the right child pointer of 'x'.
 	x->right = y;
 
 	// Step 3.2: 'y' is now one level down from its original position and on the right side of 'x'.
